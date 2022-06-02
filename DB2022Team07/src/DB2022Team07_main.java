@@ -7,10 +7,9 @@ public class DB2022Team07_main {
 	public static void main(String args[]) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DBID, USERID, PASSWD);
 				Statement stmt = conn.createStatement();) {
-			Initialize.Create(conn, stmt);
-			Initialize.View(conn, stmt);
-			Initialize.InsertInitialData(conn, stmt);
-			
+			//Initialize.Create(conn, stmt);
+			//Initialize.View(conn, stmt);
+			//Initialize.InsertInitialData(conn, stmt);
 			
 			
 		}catch (SQLException sqle) {
