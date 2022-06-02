@@ -88,7 +88,6 @@ public class Initialize {
 	public static void DropDb(Connection conn, Statement stmt) {
 		try {
 			 	stmt.executeUpdate("drop table DB2022_enroll;\r\n"
-			 			+ "drop table DB2022_marketing_consent;\r\n"
 			 			+ "drop table DB2022_members;\r\n"
 			 			+ "drop table DB2022_trainers;\r\n"
 			 			+ "drop table DB2022_branches;\r\n"
