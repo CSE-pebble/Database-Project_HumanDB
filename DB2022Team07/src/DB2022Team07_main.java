@@ -10,7 +10,9 @@ public class DB2022Team07_main {
 			Initialize.Create(conn, stmt);
 			Initialize.View(conn, stmt);
 			Initialize.InsertInitialData(conn, stmt);
-			
+			Initialize.Index(conn, stmt);
+			Initialize.DropDb(conn, stmt);
+
 			
 		}catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
