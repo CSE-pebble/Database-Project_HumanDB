@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Initialize {
+	
+	// 테이블 생
 	public static void Create(Connection conn, Statement stmt) {
 		try{
 			//stmt.executeUpdate("use "+ DBID+";");
@@ -68,6 +70,8 @@ public class Initialize {
 			System.out.println("SQLException: " + sqle);
 		}
 	}
+	
+	// 뷰 생
 	public static void View(Connection conn, Statement stmt) {
 		try {
 				// 회원권 종료 기간 view
@@ -85,6 +89,7 @@ public class Initialize {
 			System.out.println("SQLException: " + sqle);
 		}
 	}
+	
 	public static void Index(Connection conn, Statement stmt) {
 		try {
 			stmt.executeUpdate("create index idx_memb_branch on DB2022_members(branch)");
