@@ -13,9 +13,9 @@ public class Branch {
 			pStmt.setString(1, year);
 			pStmt.setString(2, month);
 			ResultSet rset = pStmt.executeQuery();
-			System.out.println(year + "³â " + month + "¿ùÀÇ " + "¸ÅÃâ: ");
+			System.out.println(year + "ë…„ " + month + "ì›”ì˜ " + "ë§¤ì¶œ: ");
 			while (rset.next()) {
-				System.out.println(rset.getString("branch") + "ÁöÁ¡: " + rset.getInt("revenue") + "¿ø");
+				System.out.println(rset.getString("branch") + "ì§€ì : " + rset.getInt("revenue") + "ì›");
 			}
 
 		} catch (SQLException sqle) {
@@ -26,17 +26,17 @@ public class Branch {
 	
 	public static void Branch_Info(Connection conn, Statement stmt) {
 		try {			
-			/* ÁöÁ¡º° È¸¿ø ¼ö */
+			/* ì§€ì ë³„ íšŒì› ìˆ˜ */
 			ResultSet rset = stmt.executeQuery("select branch, count(*) from DB2022_members group by branch;");
 			while (rset.next()) {
-				System.out.println("ÁöÁ¡º° È¸¿ø ¼ö : " + rset.getString("branch") + " " + rset.getInt(2));
+				System.out.println("ì§€ì ë³„ íšŒì› ìˆ˜ : " + rset.getString("branch") + " " + rset.getInt(2));
 			}
 			System.out.println("\n");
 			
-			/* ÁöÁ¡º° Æ®·¹ÀÌ³Ê ¼ö */
+			/* ì§€ì ë³„ íŠ¸ë ˆì´ë„ˆ ìˆ˜ */
 			ResultSet rset2 = stmt.executeQuery("select branch, count(*) from DB2022_trainers group by branch;");
 			while (rset2.next()) {
-				System.out.println("ÁöÁ¡º° Æ®·¹ÀÌ³Ê ¼ö : " + rset2.getString("branch") + " " + rset2.getInt(2));
+				System.out.println("ì§€ì ë³„ íŠ¸ë ˆì´ë„ˆ ìˆ˜ : " + rset2.getString("branch") + " " + rset2.getInt(2));
 			}
 			System.out.println("\n");
 

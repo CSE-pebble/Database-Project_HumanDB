@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import com.mysql.cj.protocol.Resultset;
 
 public class Member {
-	// È¸¿ø µî·Ï ÇÔ¼ö
+	// íšŒì› ë“±ë¡ í•¨ìˆ˜
 	public static void new_Member(Connection conn, Statement stmt, String name, String gender, int height, int weight, String phone, String password, String branch) {
 		try {
 			ResultSet rset =  stmt.executeQuery("select max(member_id)+1 from DB2022_members;");
@@ -26,7 +26,7 @@ public class Member {
 			System.out.println("SQLException: "+sqle);
 		}
 	}
-	// È¸¿ø±Ç µî·Ï ÇÔ¼ö
+	// íšŒì›ê¶Œ ë“±ë¡ í•¨ìˆ˜
 	public static void enroll(Connection conn, Statement stmt, int member_id, String enroll_date, String start_date, int membership) {
 		try {
 			PreparedStatement pStmt = conn.prepareStatement(
@@ -40,7 +40,7 @@ public class Member {
 			System.out.println("SQLException: "+sqle);
 		}
 	}
-	// ¸¸·á È¸¿ø »èÁ¦ ÇÔ¼ö
+	// ë§Œë£Œ íšŒì› ì‚­ì œ í•¨ìˆ˜
 	public static void Expired_Member(Connection conn, Statement stmt) {
 		try {
 			LocalDate now = LocalDate.now();
@@ -49,10 +49,10 @@ public class Member {
 					+ "from DB2022_period as period\r\n" 
 					+ "where period.end_date < DATE(NOW());");
 
-			System.out.println(now + " ¸¸·á È¸¿ø ¸®½ºÆ®");
+			System.out.println(now + " ë§Œë£Œ íšŒì› ë¦¬ìŠ¤íŠ¸");
 			while (rset.next()) {
 				String date = rset.getString("start_date");
-				System.out.println(rset.getString("name") + " È¸¿ø " + date + " ~ " + rset.getString("end_date"));
+				System.out.println(rset.getString("name") + " íšŒì› " + date + " ~ " + rset.getString("end_date"));
 				PreparedStatement pStmt2 = conn.prepareStatement("delete from DB2022_enroll\r\n" 
 				+ "where member_id="
 						+ rset.getInt("member_id") 
@@ -65,15 +65,15 @@ public class Member {
 		}
 
 	}
-	// BMI °è»ê ÇÔ¼ö
+	// BMI ê³„ì‚° í•¨ìˆ˜
 	public static void BMI_Calculator(Connection conn, Statement stmt, String member_name) {
 		try {
 			ResultSet rset = stmt.executeQuery("select name, (weight/((height/100)*(height/100))) as score\r\n"
 					+ "from DB2022_members as members\r\n" 
 					+ "where members.name='" + member_name + "';");
-			System.out.println("È¸¿øº° BMI Á¡¼ö");
+			System.out.println("íšŒì›ë³„ BMI ì ìˆ˜");
 			while (rset.next()) {
-				System.out.println(rset.getString("name") + " È¸¿ø Á¡¼ö " + rset.getString("score"));
+				System.out.println(rset.getString("name") + " íšŒì› ì ìˆ˜ " + rset.getString("score"));
 			}
 
 		} catch (SQLException sqle) {
