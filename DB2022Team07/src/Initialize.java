@@ -4,7 +4,7 @@ import java.sql.Statement;
 
 public class Initialize {
 	
-	// 테이블 생
+	// 테이블 생성 
 	public static void Create(Connection conn, Statement stmt) {
 		try{
 			//stmt.executeUpdate("use "+ DBID+";");
@@ -71,7 +71,7 @@ public class Initialize {
 		}
 	}
 	
-	// 뷰 생
+	// 뷰 생성 
 	public static void View(Connection conn, Statement stmt) {
 		try {
 				// 회원권 종료 기간 view
@@ -90,6 +90,7 @@ public class Initialize {
 		}
 	}
 	
+	// 인덱스 생성 
 	public static void Index(Connection conn, Statement stmt) {
 		try {
 			stmt.executeUpdate("create index idx_memb_branch on DB2022_members(branch)");
@@ -100,6 +101,8 @@ public class Initialize {
 			System.out.println("SQLException: " + sqle);
 		}
 	}
+	
+	// 테이블 및 뷰 삭제 
 	public static void DropDb(Connection conn, Statement stmt) {
 		try {
 			 	stmt.executeUpdate("drop table DB2022_enroll;");
@@ -113,6 +116,8 @@ public class Initialize {
 			System.out.println("SQLException: " + sqle);
 		}
 	}
+	
+	// 초기 데이터 삽입 
 	public static void InsertInitialData(Connection conn, Statement stmt) {
 		try {
 			 	stmt.executeUpdate("insert into DB2022_membership values\r\n"
