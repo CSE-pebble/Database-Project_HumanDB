@@ -85,16 +85,25 @@ public class Initialize {
 			System.out.println("SQLException: " + sqle);
 		}
 	}
+	public static void Index(Connection conn, Statement stmt) {
+		try {
+			stmt.executeUpdate("create index idx_memb_branch on DB2022_members(branch)");
+			stmt.executeUpdate("create index idx_trainer_branch on DB2022_trainers(branch)");
+			stmt.executeUpdate("create index idx_branch_city on DB2022_branches(city)");
+			stmt.executeUpdate("create index idx_menroll_member on DB2022_enroll(member_id)");
+		} catch (SQLException sqle) {
+			System.out.println("SQLException: " + sqle);
+		}
+	}
 	public static void DropDb(Connection conn, Statement stmt) {
 		try {
-			 	stmt.executeUpdate("drop table DB2022_enroll;"
-			 			+ "drop table DB2022_marketing_consent;"
-			 			+ "drop table DB2022_members;"
-			 			+ "drop table DB2022_trainers;"
-			 			+ "drop table DB2022_branches;"
-			 			+ "drop table DB2022_membership;"
-			 			+ "drop view DB2022_period;"
-			 			+ "drop view DB2022_career;");
+			 	stmt.executeUpdate("drop table DB2022_enroll;");
+			 	stmt.executeUpdate("drop table DB2022_members;");
+			 	stmt.executeUpdate("drop table DB2022_trainers;");
+			 	stmt.executeUpdate("drop table DB2022_branches;");
+			 	stmt.executeUpdate("drop table DB2022_membership;");
+			 	stmt.executeUpdate("drop view DB2022_period;");
+			 	stmt.executeUpdate("drop view DB2022_career;");
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
 		}
@@ -136,14 +145,5 @@ public class Initialize {
 			System.out.println("SQLException: " + sqle);
 		}
 	}
-	public static void Index(Connection conn, Statement stmt) {
-		try {
-			stmt.executeUpdate("create index idx_memb_branch on DB2022_members(branch)");
-			stmt.executeUpdate("create index idx_trainer_branch on DB2022_trainers(branch)");
-			stmt.executeUpdate("create index idx_branch_city on DB2022_branches(city)");
-			stmt.executeUpdate("create index idx_menroll_member on DB2022_enroll(member_id)");
-		} catch (SQLException sqle) {
-			System.out.println("SQLException: " + sqle);
-		}
-	}
+	
 }
