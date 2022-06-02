@@ -5,11 +5,17 @@ public class DB2022Team07 {
 	static final String DBID = "DB2022Team07";
 	static final String USERID = "root";
 	static final String PASSWD = "wcdi9786@#";
-
+	public static void main(String args[]) {
+		Create();
+		View();
+		InsertInitialData();
+		
+	}
 
 	public static void Create() {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DBID, USERID, PASSWD);
 				Statement stmt = conn.createStatement();) {
+			//stmt.executeUpdate("use "+ DBID+";");
 			stmt.executeUpdate("create table DB2022_membership(\r\n"
 					+ "	membership_id int,\r\n"
 					+ "	name varchar(30) not null,\r\n"
@@ -28,8 +34,8 @@ public class DB2022Team07 {
 					+ "	street_number varchar(10) not null,\r\n"
 					+ "	boss varchar(20) not null,\r\n"
 					+ "\r\n"
-					+ "	primary key (name)\r\n"
-					+ "key idx_city (city)\r\n"
+					+ "	primary key (name),\r\n"
+					+ " key idx_city (city)\r\n"
 					+ ");");
 			stmt.executeUpdate("create table DB2022_trainers (\r\n"
 					+ "	trainer_id int,\r\n"
@@ -39,7 +45,7 @@ public class DB2022Team07 {
 					+ "	branch varchar(30) not null,\r\n"
 					+ "\r\n"
 					+ "	primary key (trainer_id),\r\n"
-					+ "	foreign key (branch) references DB2022_branches(name)\r\n"
+					+ "	foreign key (branch) references DB2022_branches(name),\r\n"
 					+ " key idx_name (name)\r\n"
 					+ ");");
 			stmt.executeUpdate("create table DB2022_members(\r\n"
@@ -55,16 +61,16 @@ public class DB2022Team07 {
 					+ "\r\n"
 					+ "  primary key (member_id),\r\n"
 					+ "  foreign key (branch) references DB2022_branches(name),\r\n"
-					+ "  foreign key (trainer) references DB2022_trainers(trainer_id)\r\n"
-					+ " key idx_name (name)\r\n"
+					+ "  foreign key (trainer) references DB2022_trainers(trainer_id),\r\n"
+					+ "key idx_name (name)"
 					+ ");");
 			stmt.executeUpdate("create table DB2022_enroll (\r\n"
 					+ "	member_id int,\r\n"
 					+ "	enroll_date date not null,\r\n"
 					+ "	start_date date,\r\n"
-					+ "	membership int not null, -- membershipÀº table ÀÌ¸§°ú µ¿ÀÏÇÏ¹Ç·Î ±×³É membership_id\r\n"
+					+ "	membership int not null,\r\n"
 					+ "\r\n"
-					+ "	primary key (member_id, start_date), -- composite key\r\n"
+					+ "	primary key (member_id, start_date), \r\n"
 					+ "	foreign key (membership) references DB2022_membership(membership_id),\r\n"
 					+ "	foreign key (member_id) references DB2022_members(member_id)\r\n"
 					+ ");");
@@ -107,45 +113,36 @@ public class DB2022Team07 {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DBID, USERID, PASSWD);
 				Statement stmt = conn.createStatement();) {
 			 	stmt.executeUpdate("insert into DB2022_membership values\r\n"
-			 			+ "    (1, '30ÀÏ±Ç', 30, 50000),\r\n"
-			 			+ "    (2, '60ÀÏ±Ç', 60, 80000),\r\n"
-			 			+ "    (3, '90ÀÏ±Ç', 90, 120000),\r\n"
-			 			+ "    (4, 'Á¾°­ ±â³ä Æ¯º° È¸¿ø±Ç', 50, 50000),\r\n"
-			 			+ "    (5, '°³°­ ±â³ä Æ¯º° È¸¿ø±Ç', 100, 200000);\r\n"
-			 			+ "select * from DB2022_membership;\r\n"
-			 			+ "\r\n"
-			 			+ "insert into DB2022_branches values\r\n"
-			 			+ "    ('¼öÁö', '02-100-1234', '¿ëÀÎ½Ã', '¼öÁö±¸', 'Æ÷Àº´ë·Î', '435', '¹ÚÇöÁö'),\r\n"
-			 			+ "    ('³ë·®Áø', '02-120-1000', '¼­¿ïÆ¯º°½Ã', 'µ¿ÀÛ±¸', 'Àå½Â¹è±â·Î', '161', '±èÁöÇı'),\r\n"
-			 			+ "    ('¿°Ã¢', '02-570-4321', '¼­¿ïÆ¯º°½Ã', 'µ¿ÀÛ±¸', '¸¶°îÁß¾Ó·Î', '52', 'ÃÖ±âÁØ');\r\n"
-			 			+ "select * from DB2022_branches;\r\n"
-			 			+ "\r\n"
-			 			+ "insert into DB2022_trainers values\r\n"
-			 			+ "    (1, '±èÁøÇØ', 2017, 5, '¼öÁö'),\r\n"
-			 			+ "    (2, 'Á¤¿Ï¼·', 2022, 6, '¼öÁö'),\r\n"
-			 			+ "    (3, 'µµ½ÇÀÎ', 2013, 11, '¿°Ã¢'),\r\n"
-			 			+ "    (4, 'Ã¤ÁØ±â', 2010, 12, '³ë·®Áø'),\r\n"
-			 			+ "    (5, '±èÁ¤¿¬', 2020, 7, '³ë·®Áø'),\r\n"
-			 			+ "    (6, 'ÀÌÀºÇı', 2015, 9, '¿°Ã¢');\r\n"
-			 			+ "select * from DB2022_trainers;\r\n"
-			 			+ "\r\n"
-			 			+ "insert into DB2022_members values\r\n"
-			 			+ "    (1, 'ÀÌ³ªÇö', 'F', 160, 60, '01029302038', '2940', '¼öÁö', 1),\r\n"
-			 			+ "    (2, '±è¼±¿µ', 'F', 170, 70, '01034062059', '1930', '³ë·®Áø', 4),\r\n"
-			 			+ "    (3, 'Á¤¹ÎÁ¤', 'F', 175, 75, '01034062059', '4021', '¿°Ã¢', 3),\r\n"
-			 			+ "    (4, '±è¿ë¿¬', 'F', 165, 65, '01034062059', '4920', '¿°Ã¢', null),\r\n"
-			 			+ "    (5, '±èµµ¿¬', 'F', 155, 55, '01024568059', '6569', '³ë·®Áø', 5),\r\n"
-			 			+ "    (6, '±è¹Î¿ì', 'M', 175, 92, '01002942038', '4496', '¿°Ã¢', 6),\r\n"
-			 			+ "    (7, 'ÃÖÀÎÈ£', 'M', 180, 68, '01089072769', '0123', '¼öÁö', null);\r\n"
-			 			+ "select * from DB2022_members;\r\n"
-			 			+ "\r\n"
-			 			+ "insert into DB2022_enroll values\r\n"
+			 			+ "    (1, '30ì¼ê¶Œ', 30, 50000),\r\n"
+			 			+ "    (2, '60ì¼ê¶Œ', 60, 80000),\r\n"
+			 			+ "    (3, '90ì¼ê¶Œ', 90, 120000),\r\n"
+			 			+ "    (4, 'ì¢…ê°• ê¸°ë… íŠ¹ë³„ íšŒì›ê¶Œ', 50, 50000),\r\n"
+			 			+ "    (5, 'ê°œê°• ê¸°ë… íŠ¹ë³„ íšŒì›ê¶Œ', 100, 200000);\r\n");
+			 	stmt.executeUpdate("insert into DB2022_branches values\r\n"
+			 			+ "    ('ìˆ˜ì§€', '02-100-1234', 'ìš©ì¸ì‹œ', 'ìˆ˜ì§€êµ¬', 'í¬ì€ëŒ€ë¡œ', '435', 'ë°•í˜„ì§€'),\r\n"
+			 			+ "    ('ë…¸ëŸ‰ì§„', '02-120-1000', 'ì„œìš¸íŠ¹ë³„ì‹œ', 'ë™ì‘êµ¬', 'ì¥ìŠ¹ë°°ê¸°ë¡œ', '161', 'ê¹€ì§€í˜œ'),\r\n"
+			 			+ "    ('ì—¼ì°½', '02-570-4321', 'ì„œìš¸íŠ¹ë³„ì‹œ', 'ë™ì‘êµ¬', 'ë§ˆê³¡ì¤‘ì•™ë¡œ', '52', 'ìµœê¸°ì¤€');\r\n");
+			 	stmt.executeUpdate("insert into DB2022_trainers values\r\n"
+			 			+ "    (1, 'ê¹€ì§„í•´', 2017, 5, 'ìˆ˜ì§€'),\r\n"
+			 			+ "    (2, 'ì •ì™„ì„­', 2022, 6, 'ìˆ˜ì§€'),\r\n"
+			 			+ "    (3, 'ë„ì‹¤ì¸', 2013, 11, 'ì—¼ì°½'),\r\n"
+			 			+ "    (4, 'ì±„ì¤€ê¸°', 2010, 12, 'ë…¸ëŸ‰ì§„'),\r\n"
+			 			+ "    (5, 'ê¹€ì •ì—°', 2020, 7, 'ë…¸ëŸ‰ì§„'),\r\n"
+			 			+ "    (6, 'ì´ì€í˜œ', 2015, 9, 'ì—¼ì°½');\r\n");
+			 	stmt.executeUpdate("insert into DB2022_members values\r\n"
+			 			+ "    (1, 'ì´ë‚˜í˜„', 'F', 160, 60, '01029302038', '2940', 'ìˆ˜ì§€', 1),\r\n"
+			 			+ "    (2, 'ê¹€ì„ ì˜', 'F', 170, 70, '01034062059', '1930', 'ë…¸ëŸ‰ì§„', 4),\r\n"
+			 			+ "    (3, 'ì •ë¯¼ì •', 'F', 175, 75, '01034062059', '4021', 'ì—¼ì°½', 3),\r\n"
+			 			+ "    (4, 'ê¹€ìš©ì—°', 'F', 165, 65, '01034062059', '4920', 'ì—¼ì°½', null),\r\n"
+			 			+ "    (5, 'ê¹€ë„ì—°', 'F', 155, 55, '01024568059', '6569', 'ë…¸ëŸ‰ì§„', 5),\r\n"
+			 			+ "    (6, 'ê¹€ë¯¼ìš°', 'M', 175, 92, '01002942038', '4496', 'ì—¼ì°½', 6),\r\n"
+			 			+ "    (7, 'ìµœì¸í˜¸', 'M', 180, 68, '01089072769', '0123', 'ìˆ˜ì§€', null);\r\n");
+			 	stmt.executeUpdate("insert into DB2022_enroll values\r\n"
 			 			+ "    (3, '2021-04-19', '2022-05-30', 2),\r\n"
 			 			+ "    (4, '2018-05-01', '2018-05-03', 4),\r\n"
 			 			+ "    (2, '2022-05-10', '2022-05-23', 1),\r\n"
 			 			+ "    (1, '2022-05-22', '2022-05-22', 3),\r\n"
-			 			+ "    (5, '2022-05-23', '2022-06-06', 1);\r\n"
-			 			+ "select * from DB2022_enroll;");
+			 			+ "    (5, '2022-05-23', '2022-06-06', 1);\r\n");
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
 		}
@@ -154,44 +151,44 @@ public class DB2022Team07 {
 		Scanner s = new Scanner(System.in);
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DBID, USERID, PASSWD);
 				Statement stmt = conn.createStatement();) {
-			// È¸¿øÀÇ ÀÌ¸§°ú »ı³â¿ùÀÏÀ» ¹ÙÅÁÀ¸·Î member_id °Ë»ö
+			// íšŒì›ì˜ ì´ë¦„ê³¼ ìƒë…„ì›”ì¼ì„ ë°”íƒ•ìœ¼ë¡œ member_id ê²€ìƒ‰
 			ResultSet info_set = stmt
 					.executeQuery("select * from DB2022_members join DB2022_enroll using(member_id)\r\n"
 							+ "where name='" + member_name + "' and phone='" + phone + "';\r\n");
-			// È¸¿ø Á¤º¸°¡ Àß¸øµÇ¾ú°Å³ª, È¸¿ø±ÇÀ» µî·ÏÇÑ È¸¿øDB¿¡ È¸¿øÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì
+			// íšŒì› ì •ë³´ê°€ ì˜ëª»ë˜ì—ˆê±°ë‚˜, íšŒì›ê¶Œì„ ë“±ë¡í•œ íšŒì›DBì— íšŒì›ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 			if (!info_set.next()) {
-				System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â È¸¿øÀÔ´Ï´Ù.");
+				System.out.println("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” íšŒì›ì…ë‹ˆë‹¤.");
 			} else {
-				// º¸¾ÈÀ» À§ÇØ password È®ÀÎ
-				System.out.println("º»ÀÎÈ®ÀÎÀ» À§ÇØ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				// ë³´ì•ˆì„ ìœ„í•´ password í™•ì¸
+				System.out.println("ë³¸ì¸í™•ì¸ì„ ìœ„í•´ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				String input_passwd = s.next();
 				String passwd = info_set.getString("password");
 				while (!input_passwd.equals(passwd)) {
-					System.out.println("ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 					input_passwd = s.next();
 				}
 				;
-				// È¸¿øÀÇ member_id¿Í ÁöÁ¡ ÀúÀå
+				// íšŒì›ì˜ member_idì™€ ì§€ì  ì €ì¥
 				String member_id = info_set.getString("member_id");
 				String member_branch = info_set.getString("branch");
 
-				// ÇØ´ç È¸¿øÀÇ ÁöÁ¡¿¡ ÀÖ´Â trainer ¸ñ·Ï °Ë»ö
+				// í•´ë‹¹ íšŒì›ì˜ ì§€ì ì— ìˆëŠ” trainer ëª©ë¡ ê²€ìƒ‰
 				ResultSet trainer_set = stmt
 						.executeQuery("select *\r\n" + "from DB2022_trainers join DB2022_career using(trainer_id)\r\n"
 								+ "where branch ='" + member_branch + "';\r\n");
-				System.out.println(member_branch + "¼Ò¼Ó Æ®·¹ÀÌ³Ê ¸í´ÜÀÔ´Ï´Ù.");
+				System.out.println(member_branch + "ì†Œì† íŠ¸ë ˆì´ë„ˆ ëª…ë‹¨ì…ë‹ˆë‹¤.");
 				while (trainer_set.next()) {
-					System.out.println(trainer_set.getString("trainer_id") + "¹ø: " + trainer_set.getString("name")
-							+ ", °æ·Â: " + trainer_set.getString("career_year") + "³â "
-							+ trainer_set.getString("career_month") + "°³¿ù");
+					System.out.println(trainer_set.getString("trainer_id") + "ë²ˆ: " + trainer_set.getString("name")
+							+ ", ê²½ë ¥: " + trainer_set.getString("career_year") + "ë…„ "
+							+ trainer_set.getString("career_month") + "ê°œì›”");
 				}
-				// ¿øÇÏ´Â Æ®·¹ÀÌ³ÊÀÇ ¹øÈ£ ÀÔ·Â
-				System.out.println("¿øÇÏ´Â Æ®·¹ÀÌ³ÊÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				// ì›í•˜ëŠ” íŠ¸ë ˆì´ë„ˆì˜ ë²ˆí˜¸ ì…ë ¥
+				System.out.println("ì›í•˜ëŠ” íŠ¸ë ˆì´ë„ˆì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				String trainer_id = s.next();
-				// ¼±ÅÃÇÑ trainer·Î º¯°æ È¤Àº µî·Ï
+				// ì„ íƒí•œ trainerë¡œ ë³€ê²½ í˜¹ì€ ë“±ë¡
 				stmt.executeUpdate("update DB2022_members\r\n" + "set trainer ='" + trainer_id + "'\r\n"
 						+ "where member_id='" + member_id + "';\r\n");
-				System.out.println("Æ®·¹ÀÌ³Ê°¡ º¯°æµÇ¾ú½À´Ï´Ù.");
+				System.out.println("íŠ¸ë ˆì´ë„ˆê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 
 		} catch (SQLException sqle) {
@@ -208,7 +205,7 @@ public class DB2022Team07 {
 					"update DB2022_members\r\n" + "set trainer = null\r\n" + "where trainer='" + trainer + "';\r\n");
 			stmt.executeUpdate("update DB2022_trainers\r\n" + "set branch ='" + branch + "'\r\n" + "where trainer='"
 					+ trainer + "';\r\n");
-			System.out.println("ÁöÁ¡ ÀÌµ¿ Ã³¸®µÇ¾ú½À´Ï´Ù.");
+			System.out.println("ì§€ì  ì´ë™ ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
@@ -224,7 +221,7 @@ public class DB2022Team07 {
 					"update DB2022_members\r\n" + "set trainer = null\r\n" + "where trainer='" + trainer + "';\r\n");
 			stmt.executeUpdate("delete from DB2022_trainers\r\n" + "where trainer_id='" + trainer + "';\r\n");
 
-			System.out.println("Åğ»çÃ³¸®µÇ¾ú½À´Ï´Ù.");
+			System.out.println("í‡´ì‚¬ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
@@ -240,9 +237,9 @@ public class DB2022Team07 {
 					+ "on DB2022_enroll.membership=DB2022_membership.membership_id\r\n"
 					+ "join DB2022_members using(member_id)\r\n" + "where year(enroll_date)='" + year
 					+ "' and month(enroll_Date)='" + month + "'\r\n" + "group by branch\r\n" + "order by branch; ");
-			System.out.println(year + "³â " + month + "¿ùÀÇ " + "¸ÅÃâ: ");
+			System.out.println(year + "ë…„ " + month + "ì›”ì˜ " + "ë§¤ì¶œ: ");
 			while (rset.next()) {
-				System.out.println(rset.getString("branch") + "ÁöÁ¡: " + rset.getInt("revenue") + "¿ø");
+				System.out.println(rset.getString("branch") + "ì§€ì : " + rset.getInt("revenue") + "ì›");
 			}
 
 		} catch (SQLException sqle) {
