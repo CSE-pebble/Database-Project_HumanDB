@@ -8,44 +8,44 @@ public class Trainer {
 	public static void Trainer_Change(Connection conn, Statement stmt, String member_name, String phone) {
 		Scanner s = new Scanner(System.in);
 		try {
-			// È¸¿øÀÇ ÀÌ¸§°ú »ı³â¿ùÀÏÀ» ¹ÙÅÁÀ¸·Î member_id °Ë»ö
+			// íšŒì›ì˜ ì´ë¦„ê³¼ ìƒë…„ì›”ì¼ì„ ë°”íƒ•ìœ¼ë¡œ member_id ê²€ìƒ‰
 			ResultSet info_set = stmt
 					.executeQuery("select * from DB2022_members join DB2022_enroll using(member_id)\r\n"
 							+ "where name='" + member_name + "' and phone='" + phone + "';\r\n");
-			// È¸¿ø Á¤º¸°¡ Àß¸øµÇ¾ú°Å³ª, È¸¿ø±ÇÀ» µî·ÏÇÑ È¸¿øDB¿¡ È¸¿øÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì
+			// íšŒì› ì •ë³´ê°€ ì˜ëª»ë˜ì—ˆê±°ë‚˜, íšŒì›ê¶Œì„ ë“±ë¡í•œ íšŒì›DBì— íšŒì›ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 			if (!info_set.next()) {
-				System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â È¸¿øÀÔ´Ï´Ù.");
+				System.out.println("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” íšŒì›ì…ë‹ˆë‹¤.");
 			} else {
-				// º¸¾ÈÀ» À§ÇØ password È®ÀÎ
-				System.out.println("º»ÀÎÈ®ÀÎÀ» À§ÇØ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				// ë³´ì•ˆì„ ìœ„í•´ password í™•ì¸
+				System.out.println("ë³¸ì¸í™•ì¸ì„ ìœ„í•´ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				String input_passwd = s.next();
 				String passwd = info_set.getString("password");
 				while (!input_passwd.equals(passwd)) {
-					System.out.println("ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 					input_passwd = s.next();
 				}
 				;
-				// È¸¿øÀÇ member_id¿Í ÁöÁ¡ ÀúÀå
+				// íšŒì›ì˜ member_idì™€ ì§€ì  ì €ì¥
 				String member_id = info_set.getString("member_id");
 				String member_branch = info_set.getString("branch");
 
-				// ÇØ´ç È¸¿øÀÇ ÁöÁ¡¿¡ ÀÖ´Â trainer ¸ñ·Ï °Ë»ö
+				// í•´ë‹¹ íšŒì›ì˜ ì§€ì ì— ìˆëŠ” trainer ëª©ë¡ ê²€ìƒ‰
 				ResultSet trainer_set = stmt
 						.executeQuery("select *\r\n" + "from DB2022_trainers join DB2022_career using(trainer_id)\r\n"
 								+ "where branch ='" + member_branch + "';\r\n");
-				System.out.println(member_branch + "¼Ò¼Ó Æ®·¹ÀÌ³Ê ¸í´ÜÀÔ´Ï´Ù.");
+				System.out.println(member_branch + "ì†Œì† íŠ¸ë ˆì´ë„ˆ ëª…ë‹¨ì…ë‹ˆë‹¤.");
 				while (trainer_set.next()) {
-					System.out.println(trainer_set.getString("trainer_id") + "¹ø: " + trainer_set.getString("name")
-							+ ", °æ·Â: " + trainer_set.getString("career_year") + "³â "
-							+ trainer_set.getString("career_month") + "°³¿ù");
+					System.out.println(trainer_set.getString("trainer_id") + "ë²ˆ: " + trainer_set.getString("name")
+							+ ", ê²½ë ¥: " + trainer_set.getString("career_year") + "ë…„ "
+							+ trainer_set.getString("career_month") + "ê°œì›”");
 				}
-				// ¿øÇÏ´Â Æ®·¹ÀÌ³ÊÀÇ ¹øÈ£ ÀÔ·Â
-				System.out.println("¿øÇÏ´Â Æ®·¹ÀÌ³ÊÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				// ì›í•˜ëŠ” íŠ¸ë ˆì´ë„ˆì˜ ë²ˆí˜¸ ì…ë ¥
+				System.out.println("ì›í•˜ëŠ” íŠ¸ë ˆì´ë„ˆì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				String trainer_id = s.next();
-				// ¼±ÅÃÇÑ trainer·Î º¯°æ È¤Àº µî·Ï
+				// ì„ íƒí•œ trainerë¡œ ë³€ê²½ í˜¹ì€ ë“±ë¡
 				stmt.executeUpdate("update DB2022_members\r\n" + "set trainer ='" + trainer_id + "'\r\n"
 						+ "where member_id='" + member_id + "';\r\n");
-				System.out.println("Æ®·¹ÀÌ³Ê°¡ º¯°æµÇ¾ú½À´Ï´Ù.");
+				System.out.println("íŠ¸ë ˆì´ë„ˆê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 
 		} catch (SQLException sqle) {
@@ -57,11 +57,13 @@ public class Trainer {
 
 	public static void Trainer_Move(Connection conn, Statement stmt,String trainer, String branch) {
 		try {
+			conn.setAutoCommit(false);
 			stmt.executeUpdate(
 					"update DB2022_members\r\n" + "set trainer = null\r\n" + "where trainer='" + trainer + "';\r\n");
+			conn.commit();
 			stmt.executeUpdate("update DB2022_trainers\r\n" + "set branch ='" + branch + "'\r\n" + "where trainer='"
 					+ trainer + "';\r\n");
-			System.out.println("ÁöÁ¡ ÀÌµ¿ Ã³¸®µÇ¾ú½À´Ï´Ù.");
+			System.out.println("ì§€ì  ì´ë™ ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
@@ -76,7 +78,7 @@ public class Trainer {
 					"update DB2022_members\r\n" + "set trainer = null\r\n" + "where trainer='" + trainer + "';\r\n");
 			stmt.executeUpdate("delete from DB2022_trainers\r\n" + "where trainer_id='" + trainer + "';\r\n");
 
-			System.out.println("Åğ»çÃ³¸®µÇ¾ú½À´Ï´Ù.");
+			System.out.println("í‡´ì‚¬ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
