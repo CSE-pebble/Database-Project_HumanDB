@@ -70,10 +70,12 @@ public class Initialize {
 	}
 	public static void View(Connection conn, Statement stmt) {
 		try {
+				// 회원권 종료 기간 view
 			 	stmt.executeUpdate("create view DB2022_period as\r\n"
 			 			+ "select enroll.member_id, members.name, start_date, date_add(enroll.start_date, interval membership.period day) as end_date\r\n"
 			 			+ "from DB2022_enroll as enroll, DB2022_membership as membership, DB2022_members as members\r\n"
 			 			+ "where enroll.member_id=members.member_id and enroll.membership=membership.membership_id;");
+			 	// 트레이너 경력 view
 			 	stmt.executeUpdate("create view DB2022_career as\r\n"
 			 			+ "select trainer_id, \r\n"
 			 			+ "floor(((year(now())-trainers.career_start_year)*12-trainers.career_start_month+month(now()))/12) as career_year,\r\n"
@@ -85,14 +87,12 @@ public class Initialize {
 	}
 	public static void DropDb(Connection conn, Statement stmt) {
 		try {
-			 	stmt.executeUpdate("create table DB2022_membership(\r\n"
-			 			+ "	membership_id int,\r\n"
-			 			+ "	name varchar(30) not null,\r\n"
-			 			+ "	period int not null,\r\n"
-			 			+ "	price int not null,\r\n"
-			 			+ "\r\n"
-			 			+ "	primary key (membership_id)\r\n"
-			 			+ ");");
+			 	stmt.executeUpdate("drop table DB2022_enroll;\r\n"
+			 			+ "drop table DB2022_marketing_consent;\r\n"
+			 			+ "drop table DB2022_members;\r\n"
+			 			+ "drop table DB2022_trainers;\r\n"
+			 			+ "drop table DB2022_branches;\r\n"
+			 			+ "drop table DB2022_membership;");
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
 		}
