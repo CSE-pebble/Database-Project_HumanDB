@@ -10,18 +10,18 @@ public class Branch extends JFrame {
    static List infoList = new List();
    static JPanel panel = new JPanel();
 
-   static boolean month = false;
-   static boolean info = false;
+   static boolean flag = false;
+   static boolean flag2 = false;
 
    public static void Monthly_Revenue(Container content) {
-      if (!month) {
-         month = true;
+	  JTextField year = new JTextField(10);
+	  JTextField month = new JTextField(10);
+      if (!flag) {
+         flag = true;
          panel.add(new JLabel("------월별 매출 조회------"));
          panel.add(new JLabel("년도"));
-         JTextField year = new JTextField(10);
          panel.add(year);
          panel.add(new JLabel("월"));
-         JTextField month = new JTextField(10);
          panel.add(month);
          panel.add(profitList);
          JButton showProfitBtn = new JButton("조회");
@@ -64,12 +64,18 @@ public class Branch extends JFrame {
          content.add(panel);
          content.setVisible(true);
       }
+      else {
+    	  year.setText("");
+    	  month.setText("");
+    	  profitList.removeAll();
+    	  infoList.removeAll();
+      }
       panel.setVisible(panel.isVisible() ? false : true);
    }
 
    public static void Branch_Info(Container content) {
-      if (!info) {
-         info = true;
+      if (!flag2) {
+    	 flag2 = true;
          panel.add(new JLabel("------지점별 정보 조회------"));
          panel.add(infoList);
          JButton showInfoBtn = new JButton("조회");
