@@ -1,84 +1,132 @@
 import java.sql.*;
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+import javax.swing.plaf.DimensionUIResource;
+
 import java.time.LocalDate;
 
-import com.mysql.cj.protocol.Resultset;
+public class Member extends JFrame {
+	static JLabel BMI = new JLabel("<html><body style='text-align:center;'>");
+	static List expiredList = new List();
+	static JPanel panel = new JPanel();
 
-public class Member {
-	// 회원 등록 함수
-	public static void new_Member(Connection conn, Statement stmt, String name, String gender, int height, int weight, String phone, String password, String branch) {
-		try {
-			ResultSet rset =  stmt.executeQuery("select max(member_id)+1 from DB2022_members;");
-			rset.next();
-			int new_member_id = rset.getInt(1);
-			PreparedStatement pStmt = conn.prepareStatement(
-					"insert into DB2022_members values(?,?,?,?,?,?,?,?,null);");
-			pStmt.setInt(1, new_member_id);
-			pStmt.setString(2, name);
-			pStmt.setString(3, gender);
-			pStmt.setInt(4, height);
-			pStmt.setInt(5, weight);
-			pStmt.setString(6, phone);
-			pStmt.setString(7, password);
-			pStmt.setString(8, branch);
-			pStmt.executeUpdate();
+	static boolean expire = false;
+	static boolean bmi = false;
+
+	public static void Expired_Member(Container content) {
+		if (!expire) {
+			expire = true;
+			panel.add(new JLabel("------회원권 만료 회원 삭제------"));
+			panel.add(expiredList);
+			JButton show = new JButton("삭제");
+			panel.add(show);
+
+			show.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+
+					try (Connection conn = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
+							DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
+						expiredList.removeAll();
+						LocalDate now = LocalDate.now();
+
+						ResultSet rset = stmt.executeQuery("select member_id, name, start_date, end_date\r\n"
+								+ "from DB2022_period as period\r\n" + "where period.end_date < DATE(NOW());");
+
+						while (rset.next()) {
+							String date = rset.getString("start_date");
+							System.out.println(
+									rset.getString("name") + " 회원 " + date + " ~ " + rset.getString("end_date"));
+							String str = (rset.getString("name") + " 회원 " + date + " ~ " + rset.getString("end_date"));
+
+							expiredList.add(str);
+
+							PreparedStatement pStmt2 = conn
+									.prepareStatement("delete from DB2022_enroll\r\n" + "where member_id="
+											+ rset.getInt("member_id") + " and start_date='" + date + "';");
+							// pStmt2.executeUpdate();
+						}
+
+					} catch (SQLException sqle) {
+						System.out.println("SQLException: " + sqle);
+					}
+
+				}
+
+			});
 			
-		}catch(SQLException sqle) {
-			System.out.println("SQLException: "+sqle);
+			panel.setPreferredSize(new DimensionUIResource(200, 400));
+			content.add(panel);
+			content.setVisible(true);
 		}
-	}
-	// 회원권 등록 함수
-	public static void enroll(Connection conn, Statement stmt, int member_id, String enroll_date, String start_date, int membership) {
-		try {
-			PreparedStatement pStmt = conn.prepareStatement(
-					"insert into DB2022_enroll values(?,?,?,?)");
-			pStmt.setInt(1, member_id);
-			pStmt.setString(2, enroll_date);
-			pStmt.setString(3, start_date);
-			pStmt.setInt(4, membership);
-			pStmt.executeUpdate();
-		}catch(SQLException sqle) {
-			System.out.println("SQLException: "+sqle);
-		}
-	}
-	// 만료 회원 삭제 함수
-	public static void Expired_Member(Connection conn, Statement stmt) {
-		try {
-			LocalDate now = LocalDate.now();
-
-			ResultSet rset = stmt.executeQuery("select member_id, name, start_date, end_date\r\n"
-					+ "from DB2022_period as period\r\n" 
-					+ "where period.end_date < DATE(NOW());");
-
-			System.out.println(now + " 만료 회원 리스트");
-			while (rset.next()) {
-				String date = rset.getString("start_date");
-				System.out.println(rset.getString("name") + " 회원 " + date + " ~ " + rset.getString("end_date"));
-				PreparedStatement pStmt2 = conn.prepareStatement("delete from DB2022_enroll\r\n" 
-				+ "where member_id="
-						+ rset.getInt("member_id") 
-						+ " and start_date='" + date + "';");
-				pStmt2.executeUpdate();
-			}
-
-		} catch (SQLException sqle) {
-			System.out.println("SQLException: " + sqle);
-		}
+		panel.setVisible(panel.isVisible() ? false : true);
 
 	}
-	// BMI 계산 함수
-	public static void BMI_Calculator(Connection conn, Statement stmt, String member_name) {
-		try {
-			ResultSet rset = stmt.executeQuery("select name, (weight/((height/100)*(height/100))) as score\r\n"
-					+ "from DB2022_members as members\r\n" 
-					+ "where members.name='" + member_name + "';");
-			System.out.println("회원별 BMI 점수");
-			while (rset.next()) {
-				System.out.println(rset.getString("name") + " 회원 점수 " + rset.getString("score"));
-			}
 
-		} catch (SQLException sqle) {
-			System.out.println("SQLException: " + sqle);
+	public static void BMI_Calculator(Container content) {
+		if (!bmi) {
+			bmi = true;
+			panel.add(new JLabel("------BMI 조회------"));
+			panel.add(new JLabel("이름을 입력하세요"));
+			JTextField name_field = new JTextField(10);
+			panel.add(name_field);
+			panel.add(new JLabel("전화번호을 입력하세요"));
+			JTextField phone_field = new JTextField(10);
+			panel.add(phone_field);
+			panel.add(new JLabel("비밀번호를 입력하세요"));
+			JTextField passwd_field = new JTextField(10);
+			panel.add(passwd_field);
+			JButton calc = new JButton("BMI 조회");
+			panel.add(calc);
+
+			calc.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					String name = name_field.getText().trim();
+					String phone = phone_field.getText().trim();
+					String passwd = passwd_field.getText().trim();
+					try (Connection conn = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
+							DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
+						// 회원의 이름과 전화번호를 바탕으로 member_id 검색
+						PreparedStatement pStmt = conn.prepareStatement(
+								"select * from DB2022_members join DB2022_enroll using(member_id) where name=? and phone=?;");
+						pStmt.setString(1, name);
+						pStmt.setString(2, phone);
+						ResultSet info_set = pStmt.executeQuery();
+						// 회원 정보가 잘못되었거나, 회원권을 등록한 회원DB에 회원이 존재하지 않는 경우
+						if (!info_set.next()) {
+							BMI.setText("존재하지 않는 회원입니다.");
+						} else {
+							// 보안을 위해 password 확인
+							if (!passwd.equals(info_set.getString("password"))) {
+								BMI.setText("비밀번호가 잘못되었습니다.");
+							} else {
+								pStmt = conn.prepareStatement("select name, (weight/((height/100)*(height/100))) as score from DB2022_members as members where members.name=?;");
+								pStmt.setString(1, name);
+								ResultSet rset = pStmt.executeQuery();
+								rset.next();
+								BMI.setText(BMI.getText()+"BMI 점수는<br /> " + rset.getString("score")+ "입니다.<br /></body></html>");
+							}
+
+						}
+					} catch (SQLException sqle) {
+						System.out.println("SQLException: " + sqle);
+					}
+				}
+			});
+
+			panel.add(BMI);
+
+			content.add(panel);
+			content.setVisible(true);
 		}
 	}
-
 }
