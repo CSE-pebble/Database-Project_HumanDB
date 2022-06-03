@@ -72,7 +72,7 @@ public class JoinFrame extends JFrame {
 		
 		// 전체 필드 패널 생성
 		JPanel fieldPn = new JPanel();
-		fieldPn.setLayout(new GridLayout(4, 1));
+		fieldPn.setLayout(new BoxLayout(fieldPn, BoxLayout.Y_AXIS));
 		fieldPn.add(pn1);
 		fieldPn.add(pn2);
 		fieldPn.add(pn3);
