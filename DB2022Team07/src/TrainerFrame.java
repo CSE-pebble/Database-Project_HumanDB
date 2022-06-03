@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -25,12 +24,12 @@ public class TrainerFrame extends JFrame {
 	private static JLabel t3 = new JLabel();
 	private static JLabel t4 = new JLabel();
 	private static JTextField trainer_field = new JTextField(4);
+	private static JButton close = new JButton("창 닫기");
 	private static Vector<Integer> id = new Vector<Integer>();
 	private static String member_id;
 
 	public TrainerFrame() {
 		setTitle("Trainer 관련 기능");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
 		contentPane.add(new JLabel("<html><body style='text-align:center;'>pt 등록/ 트레이너 변경<br />본인 확인</body></html>"));
@@ -49,6 +48,23 @@ public class TrainerFrame extends JFrame {
 				String passwd = passwd_field.getText().trim();
 				Trainer_Change(name, phone, passwd);
 			}
+		});
+		close.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				name_field.setText("");
+				phone_field.setText("");
+				passwd_field.setText("");
+				t1.setText("");
+				t2.setText("");
+				t3.setText("");
+				t4.setText("");
+				
+				dispose();
+				
+			}
+			
 		});
 		contentPane.add(btn);
 		contentPane.add(t1);
@@ -70,6 +86,7 @@ public class TrainerFrame extends JFrame {
 						pStmt.setString(2, member_id);
 						pStmt.executeUpdate();
 						t4.setText("<html><body style='text-align:center;'>트레이너가 변경되었습니다.</body></html>");
+						close.setVisible(true);
 					} catch (SQLException sqle) {
 						System.out.println("SQL Exception: " + sqle);
 					}
@@ -80,12 +97,13 @@ public class TrainerFrame extends JFrame {
 			}
 		});
 		contentPane.add(t4);
+		contentPane.add(close);
+		close.setVisible(false);
 		setSize(300, 300);
 		setVisible(true);
 	}
 
 	static void Trainer_Change(String member_name, String phone, String passwd) {
-		Scanner s = new Scanner(System.in);
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 			// 회원의 이름과 전화번호를 바탕으로 member_id 검색
@@ -130,7 +148,6 @@ public class TrainerFrame extends JFrame {
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
 		}
-		s.close();
 
 	}
 }
