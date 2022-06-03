@@ -86,6 +86,9 @@ public class JoinFrame extends JFrame {
 		joinBtn.addActionListener(new ActionListener() {  
 			public void actionPerformed(ActionEvent e) {       
 				String nameValue = nameTf.getText();
+				String genderValue = genderTf.getText();
+				int heightValue = Integer.parseInt(heightTf.getText());
+				int weightValue = Integer.parseInt(weightTf.getText());
 				String phoneValue = phoneTf.getText();
 				String passwordValue = passwordTf.getText();
 				// ...
