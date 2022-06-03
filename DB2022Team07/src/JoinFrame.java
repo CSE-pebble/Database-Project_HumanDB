@@ -12,6 +12,7 @@ public class JoinFrame extends JFrame {
 		// 제목
 		JLabel title = new JLabel("회원가입");
 		title.setFont(titleFont);
+		title.setHorizontalAlignment(JLabel.CENTER);
 		
 		// 이름 필드
 		JLabel nameLb = new JLabel("이름:");
@@ -53,20 +54,29 @@ public class JoinFrame extends JFrame {
 		JLabel phoneLb = new JLabel("전화번호:");
 		phoneLb.setFont(bodyFont);
 		JTextField phoneTf = new JTextField(15);
+		// 세 번째 줄
+		JPanel pn3 = new JPanel();
+		pn3.setLayout(new FlowLayout());
+		pn3.add(phoneLb);
+		pn3.add(phoneTf);
+		
 		// 비밀번호 필드
 		JLabel passwordLb = new JLabel("비밀번호:");
 		passwordLb.setFont(bodyFont);
 		JTextField passwordTf = new JTextField(15);
+		// 네 번째 줄
+		JPanel pn4 = new JPanel();
+		pn4.setLayout(new FlowLayout());
+		pn4.add(passwordLb);
+		pn4.add(passwordTf);
 		
 		// 전체 필드 패널 생성
 		JPanel fieldPn = new JPanel();
-		fieldPn.setLayout(new BoxLayout(fieldPn, BoxLayout.Y_AXIS));
+		fieldPn.setLayout(new GridLayout(4, 1));
 		fieldPn.add(pn1);
 		fieldPn.add(pn2);
-		fieldPn.add(phoneLb);
-		fieldPn.add(phoneTf);
-		fieldPn.add(passwordLb);
-		fieldPn.add(passwordTf);
+		fieldPn.add(pn3);
+		fieldPn.add(pn4);
 		
 		// 가입 버튼
 		JButton joinBtn = new JButton("가입하기");
@@ -88,9 +98,10 @@ public class JoinFrame extends JFrame {
 		container.add(title, BorderLayout.NORTH);
 		container.add(fieldPn, BorderLayout.CENTER);
 		container.add(joinBtn, BorderLayout.SOUTH);
-		container.setSize(500, 500);
+		setTitle("회원가입");
+		setSize(300, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		container.setVisible(true);
+		setVisible(true);
 	}
 
 
