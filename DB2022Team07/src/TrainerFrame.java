@@ -16,9 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class TrainerFrame extends JFrame {
-	private static JTextField name_field = new JTextField(20);
-	private static JTextField phone_field = new JTextField(11);
-	private static JTextField passwd_field = new JTextField(4);
+	private static JTextField name_field = new JTextField(10);
+	private static JTextField phone_field = new JTextField(10);
+	private static JTextField passwd_field = new JTextField(10);
 	private static JLabel t1 = new JLabel();
 	private static JLabel t2 = new JLabel("<html><body style='text-align:center;'>");
 	private static JLabel t3 = new JLabel();
@@ -32,7 +32,7 @@ public class TrainerFrame extends JFrame {
 		setTitle("Trainer 관련 기능");
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
-		contentPane.add(new JLabel("<html><body style='text-align:center;'>pt 등록/ 트레이너 변경<br />본인 확인</body></html>"));
+		contentPane.add(new JLabel("<html><body style='text-align:center;'>------pt 등록/ 트레이너 변경------<br />본인 확인</body></html>"));
 		contentPane.add(new JLabel("* 이름"));
 		contentPane.add(name_field);
 		contentPane.add(new JLabel("* 전화번호"));
@@ -99,7 +99,7 @@ public class TrainerFrame extends JFrame {
 		contentPane.add(t4);
 		contentPane.add(close);
 		close.setVisible(false);
-		setSize(300, 300);
+		setSize(200, 300);
 		setVisible(true);
 	}
 
