@@ -20,13 +20,17 @@ public class EmployeeFrame extends JFrame {
 	private JButton quit_menu = new JButton("퇴사 신청");
 	private JButton move_menu = new JButton("지점 이동 신청");
 	private JButton pwd_menu = new JButton("비밀번호 변경");
+	private JButton delete_menu = new JButton("회원권이 만료된 회원 삭제");
+
 	private JButton close = new JButton("창 닫기");
 	private JLabel t1 = new JLabel();
 	private JLabel t2 = new JLabel();
 	private JLabel t3 = new JLabel();
 	private JLabel t4 = new JLabel();
-	private String trainer_id="", trainer_branch="";
+	private JLabel t5 = new JLabel();
+	private String trainer_id = "", trainer_branch = "";
 	private Vector<String> branch_list = new Vector<String>();
+	private Vector<String> delete_list = new Vector<String>();
 
 	public EmployeeFrame() {
 		setTitle("Employee");
@@ -37,6 +41,7 @@ public class EmployeeFrame extends JFrame {
 		new_pwd_field.setVisible(false);
 		close.setVisible(false);
 		branch_list.clear();
+		delete_list.clear();
 		name_field.setText("");
 		branch_field.setText("");
 		passwd_field.setText("");
@@ -47,9 +52,9 @@ public class EmployeeFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = name_field.getText().trim()==null?"":name_field.getText().trim();
-				String branch = branch_field.getText().trim()==null?"":branch_field.getText().trim();
-				String passwd = passwd_field.getText().trim()==null?"":passwd_field.getText().trim();
+				String name = name_field.getText().trim() == null ? "" : name_field.getText().trim();
+				String branch = branch_field.getText().trim() == null ? "" : branch_field.getText().trim();
+				String passwd = passwd_field.getText().trim() == null ? "" : passwd_field.getText().trim();
 
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
@@ -94,6 +99,7 @@ public class EmployeeFrame extends JFrame {
 				t2.setText("");
 				t3.setText("");
 				t4.setText("");
+				t5.setText("");
 				new_branch_field.setVisible(false);
 				new_pwd_field.setVisible(false);
 				Trainer_Quit(trainer_id);
@@ -107,15 +113,17 @@ public class EmployeeFrame extends JFrame {
 				t2.setText("");
 				t3.setText("");
 				t4.setText("");
+				t5.setText("");
 				new_branch_field.setText("");
 				new_pwd_field.setVisible(false);
 				close.setVisible(false);
-				
+
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 						DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 					// 이동 가능한 지점 리스트 출력
-					PreparedStatement pStmt = conn.prepareStatement("select name from DB2022_branches where name != ?;");
+					PreparedStatement pStmt = conn
+							.prepareStatement("select name from DB2022_branches where name != ?;");
 					pStmt.setString(1, trainer_branch);
 					ResultSet rset = pStmt.executeQuery();
 					t2.setText("<html><body style='text-align:center;'>"
@@ -128,12 +136,11 @@ public class EmployeeFrame extends JFrame {
 				} catch (SQLException sqle) {
 					System.out.println("SQL Exception: " + sqle);
 				}
-				
+
 				t2.setText(t2.getText() + "</body></html>");
 				t3.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "원하는 지점을 입력하세요."
-						+ "</body></html>");
+						+ "원하는 지점을 입력하세요." + "</body></html>");
 				new_branch_field.setVisible(true);
 			}
 		});
@@ -143,23 +150,31 @@ public class EmployeeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				t3.setText("");
 				t4.setText("");
+				t5.setText("");
 				new_pwd_field.setText("");
 				new_branch_field.setVisible(false);
 				close.setVisible(false);
-				
+
 				t2.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "새로운 비밀번호"
-						+ "</body></html>");
+						+ "새로운 비밀번호" + "</body></html>");
 				new_pwd_field.setVisible(true);
 			}
-			
+
+		});
+		delete_menu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				delete_member();
+			}
+
 		});
 		new_branch_field.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(new_branch_field.getText().trim()!=null)
+				if (new_branch_field.getText().trim() != null)
 					Trainer_Move(trainer_id, new_branch_field.getText().trim());
 			}
 
@@ -168,21 +183,18 @@ public class EmployeeFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(new_pwd_field.getText().trim()!=null) {
-					if(new_pwd_field.getText().trim().length()!=4) {
-						t3.setText("<html><body style='text-align:center;'>"
-								+ "비밀번호는 4자리입니다.<br/>"
-								+ "다시 입력해주세요.<br/>"
+				if (new_pwd_field.getText().trim() != null) {
+					if (new_pwd_field.getText().trim().length() != 4) {
+						t3.setText("<html><body style='text-align:center;'>" + "비밀번호는 4자리입니다.<br/>" + "다시 입력해주세요.<br/>"
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
-					}
-					else {
+					} else {
 						change_pwd(new_pwd_field.getText().trim());
 					}
 				}
-				
+
 			}
-			
+
 		});
 		close.addActionListener(new ActionListener() {
 
@@ -207,9 +219,10 @@ public class EmployeeFrame extends JFrame {
 		content.setLayout(new FlowLayout());
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* 본인 확인 *<br/>"
+				+ "* 트레이너 메뉴 *" + "</body></html>"));
+		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "</body></html>"));
+				+ "* 본인 확인 *<br/>" + "</body></html>"));
 		content.add(new JLabel("   이름    "));
 		content.add(name_field);
 		content.add(new JLabel("   지점    "));
@@ -226,6 +239,13 @@ public class EmployeeFrame extends JFrame {
 		content.add(t3);
 		content.add(new_branch_field);
 		content.add(t4);
+		content.add(new JLabel("<html><body style='text-align:center;'>"
+				+ "----------------------------------------------------------------------------------<br/>"
+				+ "* 관리자 메뉴 *<br/>"
+				+ "----------------------------------------------------------------------------------<br/>"
+				+ "</body></html>"));
+		content.add(delete_menu);
+		content.add(t5);
 		content.add(close);
 		setSize(350, 600);
 		setVisible(true);
@@ -277,7 +297,7 @@ public class EmployeeFrame extends JFrame {
 						+ "지점 이동 신청 되었습니다.<br/>"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
-				trainer_branch=branch;
+				trainer_branch = branch;
 				close.setVisible(true);
 			} else {
 				t4.setText("<html><body style='text-align:center;'>"
@@ -292,20 +312,49 @@ public class EmployeeFrame extends JFrame {
 		}
 
 	}
+
 	void change_pwd(String pwd) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			PreparedStatement pStmt = conn.prepareStatement(""
-					+ "update DB2022_trainers set password=? where trainer_id=?");
+			PreparedStatement pStmt = conn
+					.prepareStatement("" + "update DB2022_trainers set password=? where trainer_id=?");
 			pStmt.setString(1, pwd);
 			pStmt.setString(2, trainer_id);
 			pStmt.executeUpdate();
-			
+
 			t3.setText("<html><body style='text-align:center;'>"
+					+ "----------------------------------------------------------------------------------<br/>"
+					+ "비밀번호가 변경되었습니다<br/>"
+					+ "----------------------------------------------------------------------------------<br/>"
+					+ "</body></html>");
+			close.setVisible(true);
+		} catch (SQLException sqle) {
+			System.out.println("SQLException: " + sqle);
+		}
+	}
+
+	void delete_member() {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
+				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
+			ResultSet rset = stmt
+					.executeQuery("select * from DB2022_period where timestampdiff(day,end_date,curdate())>0;");
+			if (!rset.next()) {
+				t5.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "비밀번호가 변경되었습니다<br/>"
-						+ "----------------------------------------------------------------------------------<br/>"
+						+ "만료된 회원이 없습니다.<br/>"
+						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
+			} else {
+				t5.setText("<html><body style='text-align:center;'>"
+						+ "----------------------------------------------------------------------------------<br/>");
+				do {
+					t5.setText(t5.getText() + rset.getString("name") + "님<br/>");
+				}while(rset.next());
+				t5.setText(t5.getText() + "회원권 정보가 삭제되었습니다.<br/>"
+						+ "----------------------------------------------------------------------------------"
+						+ "</body></html>");
+				stmt.executeUpdate("delete from DB2022_period where timestampdiff(day,end_date,curdate())>0;");
+			}
 			close.setVisible(true);
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
