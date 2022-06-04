@@ -8,7 +8,7 @@ import javax.swing.plaf.DimensionUIResource;
 import java.time.LocalDate;
 
 public class Member extends JFrame {
-	static JLabel BMI = new JLabel("<html><body style='text-align:center;'>");
+	static JLabel BMI = new JLabel();
 	static List expiredList = new List();
 	static JPanel panel = new JPanel();
 
@@ -40,8 +40,6 @@ public class Member extends JFrame {
 
 						while (rset.next()) {
 							String date = rset.getString("start_date");
-							System.out.println(
-									rset.getString("name") + " 회원 " + date + " ~ " + rset.getString("end_date"));
 							String str = (rset.getString("name") + " 회원 " + date + " ~ " + rset.getString("end_date"));
 
 							expiredList.add(str);
@@ -113,7 +111,7 @@ public class Member extends JFrame {
 								pStmt.setString(1, name);
 								ResultSet rset = pStmt.executeQuery();
 								rset.next();
-								BMI.setText(BMI.getText()+"BMI 점수는<br /> " + rset.getString("score")+ "입니다.<br /></body></html>");
+								BMI.setText("<html><body style='text-align:center;'>BMI 점수는<br /> " + rset.getString("score")+ "입니다.<br /></body></html>");
 							}
 
 						}

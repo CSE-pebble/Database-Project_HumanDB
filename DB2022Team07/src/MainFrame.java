@@ -15,14 +15,22 @@ public class MainFrame extends JFrame {
    static boolean info = false;
 
    public MainFrame() {
-      setTitle("Trainer 관련 기능");
+      setTitle("Ewha Gym");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       content = getContentPane();
       content.setLayout(new FlowLayout());
-
+      content.add(new JLabel("<html><body style='text-align:center;'>"
+      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "안녕하세요!<br/>"
+      		+ "Ewha Gym입니다.<br/>"
+      		+ "원하시는 서비스를 선택해주세요.<br/>"
+      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "</body></html>"));
       JButton branchBtn = new JButton("지점");
       JButton memberBtn = new JButton("회원");
-      JButton trainerBtn = new JButton("트레이너");
+      JButton trainerBtn = new JButton("트레이너 등록 / 변경");
+      JButton employeeBtn = new JButton("직원 서비스");
+      
       branchBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -46,11 +54,21 @@ public class MainFrame extends JFrame {
             TrainerFrame T_frame = new TrainerFrame();
          }
       });
+      employeeBtn.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			EmployeeFrame E_frame = new EmployeeFrame();
+		}
+    	  
+      });
       content.add(branchBtn);
       content.add(memberBtn);
       content.add(trainerBtn);
+      content.add(employeeBtn);
       
-      setSize(250, 700);
+      setSize(350, 700);
       setVisible(true);
    }
 }
