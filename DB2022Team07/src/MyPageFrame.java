@@ -95,7 +95,7 @@ public class MyPageFrame extends JFrame {
 				edit_panel.setVisible(false);
 				edit_btn.setVisible(false);
 				String name = name_field.getText().trim() == null ? "" : name_field.getText().trim();
-				phone = phone_field.getText().trim() == null ? "" : phone_field.getText().replaceAll("-", "").trim();
+				phone = phone_field.getText().replaceAll("-", "").trim() == null ? "" : phone_field.getText().replaceAll("-", "").trim();
 				passwd = passwd_field.getText().trim() == null ? "" : passwd_field.getText().trim();
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
