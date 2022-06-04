@@ -17,8 +17,8 @@ public class EmployeeFrame extends JFrame {
 	private JTextField new_branch_field = new JTextField(10);
 	private JTextField new_pwd_field = new JTextField(10);
 	private JButton identify_btn = new JButton("Search");
-	private JButton quit_menu = new JButton("Leave Company");
-	private JButton move_menu = new JButton("Change Branch");
+	private JButton quit_menu = new JButton("Resignation");
+	private JButton move_menu = new JButton("Transfer Branch");
 	private JButton pwd_menu = new JButton("Change Password");
 	private JButton delete_menu = new JButton("Delete Expired Member");
 
@@ -68,7 +68,7 @@ public class EmployeeFrame extends JFrame {
 					if (!rset.next()) {
 						t1.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "Wrong Trainer Number!<br/>" + "Enter it Again.<br/>"
+								+ "Wrong trainer Information!<br/>" + "Please enter it Again.<br/>"
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
 					} else {
@@ -80,7 +80,7 @@ public class EmployeeFrame extends JFrame {
 						pwd_menu.setVisible(true);
 						t1.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "Select Service You Want.<br/>"
+								+ "Please select the service.<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 					}
@@ -121,14 +121,14 @@ public class EmployeeFrame extends JFrame {
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 						DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-					// 이동 가능한 지점 리스트 출력
+					// �씠�룞 媛��뒫�븳 吏��젏 由ъ뒪�듃 異쒕젰
 					PreparedStatement pStmt = conn
 							.prepareStatement("select name from DB2022_branches where name != ?;");
 					pStmt.setString(1, trainer_branch);
 					ResultSet rset = pStmt.executeQuery();
 					t2.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
-							+ "You Can Change to ... <br/>");
+							+ "[ List of transferable branches ]<br/>");
 					while (rset.next()) {
 						branch_list.add(rset.getString("name"));
 						t2.setText(t2.getText() + rset.getString("name") + "<br/>");
@@ -140,7 +140,7 @@ public class EmployeeFrame extends JFrame {
 				t2.setText(t2.getText() + "</body></html>");
 				t3.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "Select Branch You Want." + "</body></html>");
+						+ "Please choose the branch: " + "</body></html>");
 				new_branch_field.setVisible(true);
 			}
 		});
@@ -157,7 +157,7 @@ public class EmployeeFrame extends JFrame {
 
 				t2.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "New Password" + "</body></html>");
+						+ "New password" + "</body></html>");
 				new_pwd_field.setVisible(true);
 			}
 
@@ -185,7 +185,7 @@ public class EmployeeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (new_pwd_field.getText().trim() != null) {
 					if (new_pwd_field.getText().trim().length() != 4) {
-						t3.setText("<html><body style='text-align:center;'>" + "Password Must be 4 digits." + "Enter it Again.<br/>"
+						t3.setText("<html><body style='text-align:center;'>" + "Password must be 4 digits.<br/>" + "Please enter it again.<br/>"
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
 					} else {
@@ -222,12 +222,12 @@ public class EmployeeFrame extends JFrame {
 				+ "* Trainer Menu *" + "</body></html>"));
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* Identification *<br/>" + "</body></html>"));
-		content.add(new JLabel("   Name  "));
+				+ "* Hereby Certify *<br/>" + "</body></html>"));
+		content.add(new JLabel("    Name    "));
 		content.add(name_field);
-		content.add(new JLabel("   Branch   "));
+		content.add(new JLabel("   Branch  "));
 		content.add(branch_field);
-		content.add(new JLabel("Password"));
+		content.add(new JLabel(" Password "));
 		content.add(passwd_field);
 		content.add(identify_btn);
 		content.add(t1);
@@ -247,7 +247,7 @@ public class EmployeeFrame extends JFrame {
 		content.add(delete_menu);
 		content.add(t5);
 		content.add(close);
-		setSize(350, 600);
+		setSize(350, 800);
 		setVisible(true);
 	}
 
@@ -265,7 +265,7 @@ public class EmployeeFrame extends JFrame {
 
 			t2.setText("<html><body style='text-align:center;'>"
 					+ "----------------------------------------------------------------------------------<br/>"
-					+ "Leaving Company Done.<br/>"
+					+ "Resignation has been processed.<br/>"
 					+ "----------------------------------------------------------------------------------<br/>"
 					+ "</body></html>");
 			close.setVisible(true);
@@ -282,19 +282,19 @@ public class EmployeeFrame extends JFrame {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 			if (branch_list.contains(branch)) {
-				// �ش� Ʈ���̳ʰ� ���� ȸ���� trainer -> null
+				// 占쌔댐옙 트占쏙옙占싱너곤옙 占쏙옙占쏙옙 회占쏙옙占쏙옙 trainer -> null
 				PreparedStatement pStmt = conn
 						.prepareStatement("update DB2022_members set trainer = null where trainer=?;");
 				pStmt.setString(1, trainer);
 				pStmt.executeUpdate();
-				// �ش� Ʈ���̳��� ���� ���� ����
+				// 占쌔댐옙 트占쏙옙占싱놂옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 				pStmt = conn.prepareStatement("update DB2022_trainers set branch =? where trainer_id=?;");
 				pStmt.setString(1, branch);
 				pStmt.setString(2, trainer);
 				pStmt.executeUpdate();
 				t4.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "Your Branch is Changed.<br/>"
+						+ "Branch is changed.<br/>"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
 				trainer_branch = branch;
@@ -302,7 +302,7 @@ public class EmployeeFrame extends JFrame {
 			} else {
 				t4.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "Wrong Branch Name!<br/>" + "Enter it Again.<br />"
+						+ "Wrong branch name!<br/>" + "Please re-enter the branch name.<br />"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
 			}
@@ -348,7 +348,7 @@ public class EmployeeFrame extends JFrame {
 				t5.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>");
 				do {
-					t5.setText(t5.getText() + rset.getString("name") + "��<br/>");
+					t5.setText(t5.getText() + rset.getString("name") + "占쏙옙<br/>");
 					PreparedStatement pStmt = conn.prepareStatement("delete from DB2022_enroll where member_id=?");
 					pStmt.setString(1, rset.getString("member_id"));
 					pStmt.executeUpdate();
