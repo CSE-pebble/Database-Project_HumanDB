@@ -157,7 +157,7 @@ public class EmployeeFrame extends JFrame {
 
 				t2.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "New password" + "</body></html>");
+						+ "New password :" + "</body></html>");
 				new_pwd_field.setVisible(true);
 			}
 
