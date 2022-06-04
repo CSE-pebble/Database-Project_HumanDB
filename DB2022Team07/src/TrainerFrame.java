@@ -103,7 +103,7 @@ public class TrainerFrame extends JFrame {
 		contentPane.setLayout(new FlowLayout());
 		contentPane.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "PT 등록 / 트레이너 변경<br />"
+				+ "PT 신청 / 트레이너 변경<br />"
 				+ "----------------------------------------------------------------------------------<br/>"
 				+ "* 본인 확인 *</body></html>"));
 		contentPane.add(new JLabel("   이름    "));
