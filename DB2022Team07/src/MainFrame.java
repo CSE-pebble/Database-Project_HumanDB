@@ -17,15 +17,6 @@ public class MainFrame extends JFrame {
    public MainFrame() {
       setTitle("Ewha Gym");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      content = getContentPane();
-      content.setLayout(new FlowLayout());
-      content.add(new JLabel("<html><body style='text-align:center;'>"
-      		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "안녕하세요!<br/>"
-      		+ "Ewha Gym입니다.<br/>"
-      		+ "원하시는 서비스를 선택해주세요.<br/>"
-      		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "</body></html>"));
       JButton branchBtn = new JButton("지점");
       JButton memberBtn = new JButton("회원");
       JButton trainerBtn = new JButton("트레이너 등록 / 변경");
@@ -63,6 +54,15 @@ public class MainFrame extends JFrame {
 		}
     	  
       });
+      content = getContentPane();
+      content.setLayout(new FlowLayout());
+      content.add(new JLabel("<html><body style='text-align:center;'>"
+      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "안녕하세요!<br/>"
+      		+ "Ewha Gym입니다.<br/>"
+      		+ "원하시는 서비스를 선택해주세요.<br/>"
+      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "</body></html>"));
       content.add(branchBtn);
       content.add(memberBtn);
       content.add(trainerBtn);
