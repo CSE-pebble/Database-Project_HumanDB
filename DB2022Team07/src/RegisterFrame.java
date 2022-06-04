@@ -58,25 +58,25 @@ public class RegisterFrame extends JFrame {
 			System.out.println("SQL Exception: " + sqle);
 		}
 		content.add(branch_list);
-		content.add(new JLabel("      Name         "));
+		content.add(new JLabel("ㅤㅤ  Nameㅤ ㅤ  "));
 		content.add(name_field);
 
-		content.add(new JLabel("       Phone       "));
+		content.add(new JLabel("ㅤㅤ Phoneㅤ  ㅤ "));
 		content.add(phone_field);
 
-		content.add(new JLabel("     Password    "));
+		content.add(new JLabel(" ㅤ Password ㅤ   "));
 		content.add(password_field);
 
-		content.add(new JLabel("  Gender(F/M)  "));
+		content.add(new JLabel("ㅤGender(F/M)ㅤ"));
 		content.add(gender_field);
 
-		content.add(new JLabel("      Height       "));
+		content.add(new JLabel("ㅤㅤ Heightㅤ      "));
 		content.add(height_field);
 
-		content.add(new JLabel("      Weight       "));
+		content.add(new JLabel("ㅤㅤ Weightㅤ      "));
 		content.add(weight_field);
 
-		content.add(new JLabel("      Branch        "));
+		content.add(new JLabel("ㅤㅤ Branchㅤ      "));
 		content.add(branch_field);
 
 		JButton btn = new JButton("Sign Up");
@@ -151,7 +151,7 @@ public class RegisterFrame extends JFrame {
 			String branch) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// member table에 tuple를 하나 삽입한다.
+			// member table에 tuple를 하나 삽입한다
 			PreparedStatement pStmt = conn.prepareStatement("insert into DB2022_members values(?,?,?,?,?,?,?,?,?)");
 			ResultSet rSet = stmt.executeQuery("select count(*) as num from DB2022_members;");
 
