@@ -1,9 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
-
 import javax.swing.*;
-import javax.swing.plaf.DimensionUIResource;
 
 public class MainFrame extends JFrame {
    static List profitList = new List();
@@ -19,15 +16,24 @@ public class MainFrame extends JFrame {
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
       JButton branchBtn = new JButton("지점");
+      JButton registerBtn = new JButton ("회원가입");
       JButton memberBtn = new JButton("마이 페이지");
       JButton trainerBtn = new JButton("트레이너 등록 / 변경");
       JButton employeeBtn = new JButton("직원 페이지");
-      
       branchBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
         	 new BranchFrame();
          }
+      });
+      registerBtn.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			new RegisterFrame();
+		}
+    	  
       });
       memberBtn.addActionListener(new ActionListener() {
          @Override
@@ -70,6 +76,7 @@ public class MainFrame extends JFrame {
       		+ "----------------------------------------------------------------------------------<br/>"
       		+ "* 회원 서비스 *<br/>"
       		+ "</body></html>"));
+      content.add(registerBtn);
       content.add(memberBtn);
       content.add(trainerBtn);
       content.add(new JLabel("<html><body style='text-align:center;'>"
