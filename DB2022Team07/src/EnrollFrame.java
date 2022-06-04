@@ -127,7 +127,7 @@ public class EnrollFrame extends JFrame {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 			
-			PreparedStatement pStmt = conn.prepareStatement("select * from DB2022_members where name=? and phone=?;");
+			PreparedStatement pStmt = conn.prepareStatement("select * from DB2022_members use index(idx_memb_phone) where name=? and phone=?;");
 			pStmt.setString(1, member_name);
 			pStmt.setString(2, phone);
 			ResultSet info_set = pStmt.executeQuery();

@@ -119,13 +119,16 @@ public class BranchFrame extends JFrame {
           public void actionPerformed(ActionEvent e) {
              try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
                    DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();){
-                ResultSet rset = stmt
-                            .executeQuery("with A as (select trainer, DB2022_trainers.branch, DB2022_trainers.name, count(trainer) as totalMemb from DB2022_trainers, DB2022_members "
-                                  + "where DB2022_members.branch = DB2022_trainers.branch and DB2022_members.trainer = DB2022_trainers.trainer_id group by trainer), \r\n"
-                                  + "B as (select branch, max(totalMemb) as topMemb from A group by branch) \r\n"
-                                  + "select A.branch, name, topMemb from A,B where A.branch = B.branch and totalMemb = topMemb order by branch; \r\n"
-                                  + "\r\n"
-                                  + "");
+                ResultSet rset = stmt.executeQuery("with A as "
+                            	  + "(select trainer, DB2022_trainers.branch, DB2022_trainers.name, count(trainer) as totalMemb "
+                            	  + "from DB2022_trainers, DB2022_members use index(idx_memb_trainer)"
+                                  + "where DB2022_members.trainer = DB2022_trainers.trainer_id group by trainer), \r\n"
+                                  + "B as "
+                                  + "(select branch, max(totalMemb) as topMemb "
+                                  + "from A group by branch) "
+                                  + "select A.branch, name, topMemb "
+                                  + "from A,B "
+                                  + "where A.branch = B.branch and totalMemb = topMemb order by branch;");
                 top1_label.setText("<html><body style='text-align:center;'>");
                       while (rset.next()) {
                          String str = (rset.getString("branch") + ": " + rset.getString("name")+ " trainer (" + rset.getInt(3)+ " members)" );
@@ -166,7 +169,7 @@ public class BranchFrame extends JFrame {
          try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
                DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
             PreparedStatement pStmt = conn.prepareStatement(
-                  "select branch, sum(price) as 'revenue' " + "from DB2022_enroll join DB2022_membership "
+                  "select branch, sum(price) as 'revenue' " + "from DB2022_enroll use index(idx_enroll_membership)join DB2022_membership "
                         + "on DB2022_enroll.membership=DB2022_membership.membership_id "
                         + "join DB2022_members using(member_id) "
                         + "where year(enroll_date)=? and month(enroll_date)=? " + "group by branch "

@@ -61,7 +61,7 @@ public class EmployeeFrame extends JFrame {
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 						DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 					PreparedStatement pStmt = conn.prepareStatement(
-							"select trainer_id, branch from DB2022_trainers where name=? and branch=? and password=?;");
+							"select trainer_id, branch from DB2022_trainers use index(idx_trainer_branch) where name=? and branch=? and password=?;");
 					pStmt.setString(1, name);
 					pStmt.setString(2, branch);
 					pStmt.setString(3, passwd);
@@ -278,7 +278,7 @@ public class EmployeeFrame extends JFrame {
 				conn.setAutoCommit(false);
 				// members assigned by the trainer: change the trainer field to null.
 				PreparedStatement pStmt = conn
-						.prepareStatement("update DB2022_members set trainer = null where trainer=?;");
+						.prepareStatement("update DB2022_members use index(idx_memb_trainer) set trainer = null where trainer=?;");
 				pStmt.setString(1, trainer);
 				pStmt.executeUpdate();
 				// resign the trainer
@@ -324,7 +324,7 @@ public class EmployeeFrame extends JFrame {
 					conn.setAutoCommit(false);
 					// members assigned by the trainer: change the trainer field to null.
 					PreparedStatement pStmt = conn
-							.prepareStatement("update DB2022_members set trainer = null where trainer=?;");
+							.prepareStatement("update DB2022_members use index(idx_memb_trainer) set trainer = null where trainer=?;");
 					pStmt.setString(1, trainer);
 					pStmt.executeUpdate();
 					// change the trainer's branch

@@ -95,16 +95,17 @@ public class MyPageFrame extends JFrame {
 				edit_panel.setVisible(false);
 				edit_btn.setVisible(false);
 				String name = name_field.getText().trim() == null ? "" : name_field.getText().trim();
-				phone = phone_field.getText().replaceAll("-", "").trim() == null ? "" : phone_field.getText().replaceAll("-", "").trim();
+				phone = phone_field.getText().replaceAll("-", "").trim() == null ? ""
+						: phone_field.getText().replaceAll("-", "").trim();
 				passwd = passwd_field.getText().trim() == null ? "" : passwd_field.getText().trim();
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 						DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 					// 입력된 사용자 정보를 바탕으로 회원 정보 불러오기
-					PreparedStatement pStmt = conn.prepareStatement(
-							"select membership, height, weight, phone, end_date "
-							+ "from DB2022_members join DB2022_period using(member_id) "
-							+ "where DB2022_members.name=? and phone=? and password=?;");
+					PreparedStatement pStmt = conn
+							.prepareStatement("select membership, height, weight, phone, end_date "
+									+ "from DB2022_members join DB2022_period using(member_id) "
+									+ "where DB2022_members.name=? and phone=? and password=?;");
 					pStmt.setString(1, name);
 					pStmt.setString(2, phone);
 					pStmt.setString(3, passwd);
@@ -123,7 +124,7 @@ public class MyPageFrame extends JFrame {
 						weight = rset.getString("weight");
 						phone = rset.getString("phone");
 						do {
-							end_date_list.add(rset.getString("membership")+": "+rset.getString("end_date"));
+							end_date_list.add(rset.getString("membership") + ": " + rset.getString("end_date"));
 						} while (rset.next());
 						bmi_menu.setVisible(true);
 						period_menu.setVisible(true);
@@ -172,21 +173,28 @@ public class MyPageFrame extends JFrame {
 				edit_panel.setVisible(false);
 				edit_btn.setVisible(false);
 				complete_label.setVisible(false);
-
-				t2.setText("<html><body style='text-align:center;'>"
-						+ "----------------------------------------------------------------------------------<br/>"
-						+ "[ Membership Expiration Date ]<br/>");
-				while(!end_date_list.isEmpty()) {
-					t2.setText(t2.getText()+end_date_list.lastElement()+"<br/>");
-					end_date_list.remove(end_date_list.size()-1);
+				if (end_date_list.isEmpty()) {
+					t2.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "There is no vaild membership.<br/>"
+							+ "----------------------------------------------------------------------------------"
+							+ "</body></html>");
+				} else {
+					t2.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "[ Membership Expiration Date ]<br/>");
+					while (!end_date_list.isEmpty()) {
+						t2.setText(t2.getText() + end_date_list.lastElement() + "<br/>");
+						end_date_list.remove(end_date_list.size() - 1);
+					}
+					t2.setText(t2.getText()
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "</body></html>");
 				}
-				t2.setText(t2.getText()
-						+ "----------------------------------------------------------------------------------<br/>"
-						+ "</body></html>");
 			}
 
 		});
-		//회원 정보 수정 이벤트 처리
+		// 회원 정보 수정 이벤트 처리
 		edit_menu.addActionListener(new ActionListener() {
 
 			@Override
@@ -203,9 +211,9 @@ public class MyPageFrame extends JFrame {
 
 				edit_passwd.setText(passwd);
 				edit_height.setText(height);
-				edit_weight.setText(weight); //필드에 입력한 값 받아와 저장
+				edit_weight.setText(weight); // 필드에 입력한 값 받아와 저장
 
-				 // 클릭 시 회원 정보 업데이트
+				// 클릭 시 회원 정보 업데이트
 				edit_btn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -213,7 +221,7 @@ public class MyPageFrame extends JFrame {
 						String new_height = edit_height.getText().trim();
 						String new_weight = edit_weight.getText().trim();
 
-						 // 비밀번호 4자리 아니면 오류 메세지 출력, 업데이트 X
+						// 비밀번호 4자리 아니면 오류 메세지 출력, 업데이트 X
 						if (new_passwd.length() != 4) {
 							complete_label.setText("<html><body style='text-align:center;'>"
 									+ "----------------------------------------------------------------------------------<br/>"
@@ -221,7 +229,7 @@ public class MyPageFrame extends JFrame {
 									+ "----------------------------------------------------------------------------------<br/>"
 									+ "</body></html>");
 						}
-						 // 비밀번호 4자리이면 정보 업데이트
+						// 비밀번호 4자리이면 정보 업데이트
 						else {
 							try (Connection conn = DriverManager.getConnection(
 									"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
@@ -237,7 +245,7 @@ public class MyPageFrame extends JFrame {
 							} catch (SQLException sqle) {
 								System.out.println("SQLException: " + sqle);
 							}
-							 // 업데이트 완료 후 성공 메세지 출력
+							// 업데이트 완료 후 성공 메세지 출력
 							complete_label.setText("<html><body style='text-align:center;'>"
 									+ "----------------------------------------------------------------------------------<br/>"
 									+ "Edit Completed.<br />"
