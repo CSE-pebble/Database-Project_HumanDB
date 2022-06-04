@@ -1,21 +1,25 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.Vector;
+
 import javax.swing.*;
 
-public class RegisterFrame extends JFrame{
-	static JTextField name_field = new JTextField(25);
-	static JTextField phone_field = new JTextField(22);
-	static JTextField password_field = new JTextField(22);
-	static JTextField gender_field = new JTextField(7);
-	static JTextField height_field = new JTextField(7);
-	static JTextField weight_field = new JTextField(7);
-	static JTextField branch_field = new JTextField(22);
-	static JLabel label = new JLabel("í•„ìˆ˜ ì •ë³´ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
-	static JLabel register = new JLabel("íšŒì›ê°€ì…ì´ ì•ˆë£Œë˜ì—ˆìŠµë‹ˆë‹¤");
+public class RegisterFrame extends JFrame {
+	JTextField name_field = new JTextField(20);
+	JTextField phone_field = new JTextField(20);
+	JTextField password_field = new JTextField(20);
+	JTextField gender_field = new JTextField(20);
+	JTextField height_field = new JTextField(20);
+	JTextField weight_field = new JTextField(20);
+	JTextField branch_field = new JTextField(20);
+	JLabel branch_list = new JLabel();
+	JLabel label = new JLabel();
+	JLabel register = new JLabel("È¸¿ø°¡ÀÔÀÌ ¾È·áµÇ¾ú½À´Ï´Ù");
+	Vector<String> branch_vec = new Vector<String>();
 
 	public RegisterFrame() {
-		setTitle("íšŒì›ê°€ì…");
+		setTitle("È¸¿ø°¡ÀÔ");
 		Container content = getContentPane();
 		content.setLayout(new FlowLayout());
 
@@ -26,44 +30,57 @@ public class RegisterFrame extends JFrame{
 		height_field.setText("");
 		weight_field.setText("");
 		branch_field.setText("");
-
-		content.add(label);
-		label.setVisible(false);
+		label.setText("");
+		branch_list.setText("");
+		branch_vec.clear();
 
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* íšŒì›ê°€ì…*<br />"
+				+ "* È¸¿ø °¡ÀÔ *<br/>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "</body></html>"));
-
-		content.add(new JLabel("ì´ë¦„"));
+				+ "¾Æ·¡´Â ÁöÁ¡ Á¤º¸ÀÔ´Ï´Ù.<br />" + "°í°´´ÔÀÇ ÁöÁ¡À» ¿Ã¹Ù¸£°Ô ÀÔ·ÂÇØÁÖ¼¼¿ä.<br/>" + "</body></html>"));
+		branch_list.setText("<html><body style='text-align:center;'>"
+				+ "----------------------------------------------------------------------------------<br/>");
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
+				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
+			ResultSet rset = stmt.executeQuery("select name from DB2022_branches;");
+			while (rset.next()) {
+				branch_vec.add(rset.getString(1));
+				branch_list.setText(branch_list.getText() + rset.getString(1) + "<br/>");
+			}
+			branch_list.setText(branch_list.getText()
+					+ "----------------------------------------------------------------------------------<br/>"
+					+ "</body></html>");
+		} catch (SQLException sqle) {
+			System.out.println("SQL Exception: " + sqle);
+		}
+		content.add(branch_list);
+		content.add(new JLabel("      ÀÌ¸§         "));
 		content.add(name_field);
 
-		content.add(new JLabel("ì „í™”ë²ˆí˜¸"));
+		content.add(new JLabel(" ÈŞ´ëÆù ¹øÈ£  "));
 		content.add(phone_field);
 
-		content.add(new JLabel("4ìë¦¬ ë¹„ë°€ë²ˆí˜¸"));
+		content.add(new JLabel("    ºñ¹Ğ¹øÈ£    "));
 		content.add(password_field);
 
-		content.add(new JLabel("ì„±ë³„"));
+		content.add(new JLabel("    ¼ºº°(F/M)    "));
 		content.add(gender_field);
 
-		content.add(new JLabel("í‚¤"));
+		content.add(new JLabel("         Å°          "));
 		content.add(height_field);
 
-		content.add(new JLabel("ëª¸ë¬´ê²Œ"));
+		content.add(new JLabel("      ¸ö¹«°Ô      "));
 		content.add(weight_field);
 
-		content.add(new JLabel("ì§€ì "));
+		content.add(new JLabel("      ÁöÁ¡         "));
 		content.add(branch_field);
 
-		JButton btn = new JButton("íšŒì›ê°€ì…");
+		JButton btn = new JButton("È¸¿ø°¡ÀÔ");
 		content.add(btn);
+		content.add(label);
 
-		content.add(register);
-		register.setVisible(false);
-
-		setSize(350, 500);
+		setSize(350, 800);
 		setVisible(true);
 
 		btn.addActionListener(new ActionListener() {
@@ -71,33 +88,67 @@ public class RegisterFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String name = name_field.getText().trim();
-				String phone = phone_field.getText().trim();
+				String phone = phone_field.getText().replaceAll("-", "").trim();
 				String passwd = password_field.getText().trim();
 				String gender = gender_field.getText().trim();
 				String height = height_field.getText().trim();
 				String weight = weight_field.getText().trim();
 				String branch = branch_field.getText().trim();
 
-				if(!name.isEmpty() && !phone.isEmpty() && !passwd.isEmpty() && !gender.isEmpty() && !height.isEmpty() && !weight.isEmpty() && !branch.isEmpty()) {
-					label.setVisible(false);
-					Register(name, phone, passwd, gender, height, weight, branch);
+				try {
+					int phone_num = Integer.parseInt(phone);
+				} catch (NumberFormatException numException) {
+					label.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "Àß¸øµÈ ÀüÈ­¹øÈ£ Çü½ÄÀÔ´Ï´Ù.<br/>" + "´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.<br/>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "</body></html>");
+				} finally {
+
+					if (name.isEmpty() || phone.isEmpty() || passwd.isEmpty() || gender.isEmpty() || height.isEmpty()
+							|| weight.isEmpty() || branch.isEmpty()) {
+						label.setText("<html><body style='text-align:center;'>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "ÇÊ¼ö Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä<br/>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "</body></html>");
+					} else if (passwd.length() != 4) {
+						label.setText("<html><body style='text-align:center;'>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "ºñ¹Ğ¹øÈ£´Â 4ÀÚ¸®ÀÔ´Ï´Ù.<br/>" + "´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.<br/>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "</body></html>");
+					} else if (!gender.equals("F") && !gender.equals("M")) {
+						label.setText("<html><body style='text-align:center;'>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "¼ºº°Àº F¿Í MÀ¸·Î<br/>" + "ÀÔ·ÂÇØÁÖ¼¼¿ä.<br/>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "</body></html>");
+					} else if (!branch_vec.contains(branch)) {
+						label.setText("<html><body style='text-align:center;'>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "Àß¸øµÈ ÁöÁ¡ ÀÌ¸§ÀÔ´Ï´Ù.<br/>" + "´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.<br/>"
+								+ "----------------------------------------------------------------------------------<br/>"
+								+ "</body></html>");
+					} else
+						Register(name, phone, passwd, gender, height, weight, branch);
+				
 				}
-				else
-					label.setVisible(true);
 			}
 		});
 
 	}
 
-	static void Register(String name, String phone, String passwd, String gender, String height, String weight, String branch) {
+	void Register(String name, String phone, String passwd, String gender, String height, String weight,
+			String branch) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// íšŒì›ì˜ ì´ë¦„ê³¼ ì „í™”ë²ˆí˜¸ë¥¼ ë°”íƒ•ìœ¼ë¡œ member_id ê²€ìƒ‰
+			// È¸¿øÀÇ ÀÌ¸§°ú ÀüÈ­¹øÈ£¸¦ ¹ÙÅÁÀ¸·Î member_id °Ë»ö
 			PreparedStatement pStmt = conn.prepareStatement("insert into DB2022_members values(?,?,?,?,?,?,?,?,?)");
-			ResultSet rSet=stmt.executeQuery("select count(*) as num from DB2022_members;");
+			ResultSet rSet = stmt.executeQuery("select count(*) as num from DB2022_members;");
 
-			if(rSet.next()) {
-				int n=rSet.getInt("num")+1;
+			if (rSet.next()) {
+				int n = rSet.getInt("num") + 1;
 				System.out.println(n);
 				pStmt.setInt(1, n);
 				pStmt.setString(2, name);
@@ -109,10 +160,12 @@ public class RegisterFrame extends JFrame{
 				pStmt.setString(8, branch);
 				pStmt.setString(9, null);
 				pStmt.executeUpdate();
-				register.setVisible(true);
-				System.out.println("íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+				label.setText("<html><body style='text-align:center;'>"
+						+ "----------------------------------------------------------------------------------<br/>"
+						+ "È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.<br/>"
+						+ "----------------------------------------------------------------------------------<br/>"
+						+ "</body></html>");
 			}
-
 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
