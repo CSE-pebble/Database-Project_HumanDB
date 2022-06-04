@@ -415,7 +415,7 @@ public class EmployeeFrame extends JFrame {
 					pStmt.setString(1, rset.getString("member_id"));
 					pStmt.executeUpdate();
 				} while (rset.next());
-				t5.setText(t5.getText() + "Expired members has been converted to rest members.<br/>"
+				t5.setText(t5.getText() + "Expired membership is deleted.<br/>"
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			}
