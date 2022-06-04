@@ -28,29 +28,29 @@ public class BranchFrame extends JFrame {
       content.setLayout(new FlowLayout());
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
-            + "* Monthly Sales  *<br/>" + "Enter the year and month you want to look up.<br/>"
+            + "* Monthly Sales  per Branch *<br/>" + "Please enter the year and month.<br/>"
             + "</body></html>"));
-      content.add(new JLabel("  Year  "));
+      content.add(new JLabel("    Year     "));
       content.add(year_field);
-      content.add(new JLabel("    Month    "));
+      content.add(new JLabel("    Month   "));
       content.add(month_field);
       content.add(revenue_btn);
       content.add(profit);
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
-            + "* Number of Members *<br/>"
+            + "* Number of Members per Branch *<br/>"
             + "</body></html>"));
       content.add(member_btn);
       content.add(member_num);
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
-            + "* Number of Trainers *<br/>"
+            + "* Number of Trainers per Branch*<br/>"
             + "</body></html>"));
       content.add(trainer_btn);
       content.add(trainer_num);
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
-            + "* Check a Trainer with the Most Members *<br/>"
+            + "* TOP 1 Trainer per Branch *<br/>"
             + "</body></html>"));
       content.add(top1_btn);
       content.add(top1_label);
