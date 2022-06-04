@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 public class EnrollFrame extends JFrame {
 	
-	private Vector<Integer> id = new Vector<Integer>();
+	private Vector<Integer> id = new Vector<Integer>(); // 회원권 아이디를 담은 벡터
 	private String member_id="";
 		
 	// 현재 날짜 받아와서 포매팅 
@@ -121,7 +121,8 @@ public class EnrollFrame extends JFrame {
 		setSize(350, 700);
 		setVisible(true);
 	}
-
+	
+	// 넘겨 받은 사용자 정보가 유효한지 판단한다.
 	void signIn(String member_name, String phone, String passwd) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
