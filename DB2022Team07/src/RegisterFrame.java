@@ -58,22 +58,22 @@ public class RegisterFrame extends JFrame {
 		content.add(new JLabel("      Name         "));
 		content.add(name_field);
 
-		content.add(new JLabel(" Phone  "));
+		content.add(new JLabel("       Phone       "));
 		content.add(phone_field);
 
-		content.add(new JLabel("    Password    "));
+		content.add(new JLabel("     Password    "));
 		content.add(password_field);
 
-		content.add(new JLabel("    Gender(F/M)    "));
+		content.add(new JLabel("  Gender(F/M)  "));
 		content.add(gender_field);
 
-		content.add(new JLabel("         Height          "));
+		content.add(new JLabel("      Height       "));
 		content.add(height_field);
 
-		content.add(new JLabel("      Weight      "));
+		content.add(new JLabel("      Weight       "));
 		content.add(weight_field);
 
-		content.add(new JLabel("      Branch         "));
+		content.add(new JLabel("      Branch        "));
 		content.add(branch_field);
 
 		JButton btn = new JButton("Sign Up");
