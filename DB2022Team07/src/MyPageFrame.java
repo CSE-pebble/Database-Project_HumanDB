@@ -48,7 +48,7 @@ public class MyPageFrame extends JFrame{
             + "----------------------------------------------------------------------------------<br/>"
             + "My Page<br />"
             + "----------------------------------------------------------------------------------<br/>"
-            + "* Hereby Certify *</body></html>"));
+            + "* Identity Verification *</body></html>"));
       contentPane.add(new JLabel("   name    "));
       contentPane.add(name_field);
       contentPane.add(new JLabel("   phone   "));

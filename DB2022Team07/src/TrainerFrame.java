@@ -105,7 +105,7 @@ public class TrainerFrame extends JFrame {
 				+ "----------------------------------------------------------------------------------<br/>"
 				+ "Enroll PT / Change Trainer<br />"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* Hereby Certify *</body></html>"));
+				+ "* Identity Verification *</body></html>"));
 		contentPane.add(new JLabel("    Name    "));
 		contentPane.add(name_field);
 		contentPane.add(new JLabel("Telephone"));
