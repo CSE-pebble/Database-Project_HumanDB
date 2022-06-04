@@ -113,7 +113,7 @@ public class BranchFrame extends JFrame {
 
       });
       
-      // 버튼에 지점별 회원 수 1위 트레이너 보여주는 이벤트 추가
+      // 버튼에 지점별 누적 회원 수 1위 트레이너 보여주는 이벤트 추가
       top1_btn.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
