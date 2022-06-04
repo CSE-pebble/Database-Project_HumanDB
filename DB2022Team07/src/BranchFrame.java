@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// 지점 관련 GUI 
+// 吏��젏 愿��젴 GUI 
 public class BranchFrame extends JFrame {
    private JTextField year_field = new JTextField(25);
    private JTextField month_field = new JTextField(25);
@@ -27,7 +27,7 @@ public class BranchFrame extends JFrame {
 
       Container content = getContentPane();
       content.setLayout(new FlowLayout());
-      // 지점별 월별 매출 조회 GUI 추가
+      // 지점 관련 GUI
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
             + "* Monthly Sales  per Branch *<br/>" + "Please enter the year and month.<br/>"
@@ -38,7 +38,7 @@ public class BranchFrame extends JFrame {
       content.add(month_field);
       content.add(revenue_btn);
       content.add(profit);
-      // 지점별 회원 수 조회 GUI 추가
+      // 지점별 월별 매출 조회 GUI 추가
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
             + "* Number of Members per Branch *<br/>"
@@ -67,7 +67,7 @@ public class BranchFrame extends JFrame {
             Monthly_Revenue(); // 월별 매출 계산하기
          }
       });
-      // 버튼에 지점별 회원 수 보여주는 이벤트 추가
+   // 버튼에 지점별 회원 수 보여주는 이벤트 추가
       member_btn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -77,7 +77,7 @@ public class BranchFrame extends JFrame {
                            .executeQuery("select branch, count(*) from DB2022_members group by branch;");
                member_num.setText("<html><body style='text-align:center;'>");
                      while (rset.next()) {
-                        String str = (rset.getString("branch") + " " + rset.getInt(2)+"<br/>");
+                        String str = (rset.getString("branch") + ": " + rset.getInt(2)+"<br/>");
                         member_num.setText(member_num.getText()+str);
                      }
                      member_num.setText(member_num.getText()
@@ -100,7 +100,7 @@ public class BranchFrame extends JFrame {
                            .executeQuery("select branch, count(*) from DB2022_trainers group by branch;");
                trainer_num.setText("<html><body style='text-align:center;'>");
                      while (rset.next()) {
-                        String str = (rset.getString("branch") + " " + rset.getInt(2)+"<br/>");
+                        String str = (rset.getString("branch") + ": " + rset.getInt(2)+"<br/>");
                         trainer_num.setText(trainer_num.getText()+str);
                      }
                      trainer_num.setText(trainer_num.getText()
@@ -128,7 +128,7 @@ public class BranchFrame extends JFrame {
                                   + "");
                 top1_label.setText("<html><body style='text-align:center;'>");
                       while (rset.next()) {
-                         String str = (rset.getString("branch") + ": " + rset.getString("name")+ " trainer (" + rset.getInt(3)+ "members.)" );
+                         String str = (rset.getString("branch") + ": " + rset.getString("name")+ " trainer (" + rset.getInt(3)+ " members)" );
                          top1_label.setText(top1_label.getText() + str+"<br/>");
                          System.out.println(str);
                       }
@@ -146,7 +146,7 @@ public class BranchFrame extends JFrame {
 
    // 지점별 월별 매출을 계산하는 함수
    void Monthly_Revenue() {
-      // 연도와 월 입력 값 가져오기
+	   // 연도와 월 입력 값 가져오기
       String tempYear = year_field.getText().trim();
       String tempMonth = month_field.getText().trim();
       int year = -1, month = -1;
@@ -154,7 +154,7 @@ public class BranchFrame extends JFrame {
          year = Integer.parseInt(tempYear);
          month = Integer.parseInt(tempMonth);
       } catch (NumberFormatException numException) {
-         // 입력 형식이 맞지 않으면 에러 메시지 띄우기
+    	  // 입력 형식이 맞지 않으면 에러 메시지 띄우기
          profit.setText("<html><body style='text-align:center;'>"
                + "----------------------------------------------------------------------------------<br/>"
                + "You have entered incorrectly.<br/>" + "Please re-enter the correct year and month.<br/>"
@@ -180,12 +180,12 @@ public class BranchFrame extends JFrame {
                profit.setText("<html><body style='text-align:center;'>"
                      + "----------------------------------------------------------------------------------<br/>");
                do {
-                  info = rset.getString("branch") + ": " + rset.getInt("revenue") + "won<br/>";
+                  info = rset.getString("branch") + ": " + rset.getInt("revenue") + " won<br/>";
                   profit.setText(profit.getText() + info);
                } while (rset.next());
                profit.setText(profit.getText() + "</body></html>");
             } else {
-               // 해당 날짜에 매출 정보가 없으면 정보가 없다는 메시지 띄우기
+            	// 해당 날짜에 매출 정보가 없으면 정보가 없다는 메시지 띄우기
                profit.setText("<html><body style='text-align:center;'>"
                      + "----------------------------------------------------------------------------------<br/>"
                      + "There are no members registered in the year and month..<br/>"
