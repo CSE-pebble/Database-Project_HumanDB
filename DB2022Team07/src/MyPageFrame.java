@@ -123,7 +123,6 @@ public class MyPageFrame extends JFrame{
 						+ "Membership Expiration Date: "+end_date+"<br/>"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
-				
 			}
 			
 		});
