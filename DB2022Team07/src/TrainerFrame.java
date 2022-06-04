@@ -70,10 +70,13 @@ public class TrainerFrame extends JFrame {
 				dispose();
 			}
 		});
+		
+		// 버튼 클릭 시, PT 신청/트레이너 변경하기
 		trainer_field.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String trainer_id = trainer_field.getText().trim()==null?"":trainer_field.getText().trim();
-				// �꽑�깮�븳 trainer濡� 蹂�寃� �샊�� �벑濡�
+				// 현재 등록된 트레이너이면,
+				// 회원의 trainer 값에 트레이너 id를 추가한다.
 				if (id.contains(Integer.parseInt(trainer_id))) {
 					try (Connection conn = DriverManager.getConnection(
 							"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
@@ -130,14 +133,13 @@ public class TrainerFrame extends JFrame {
 
 	void Trainer_Change(String member_name, String phone, String passwd) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
-				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// �쉶�썝�쓽 �씠由꾧낵 �쟾�솕踰덊샇瑜� 諛뷀깢�쑝濡� member_id 寃��깋
+				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) { 
 			PreparedStatement pStmt = conn.prepareStatement(
 					"select * from DB2022_members join DB2022_enroll using(member_id) where name=? and phone=?;");
 			pStmt.setString(1, member_name);
 			pStmt.setString(2, phone);
 			ResultSet info_set = pStmt.executeQuery();
-			// �쉶�썝 �젙蹂닿� �옒紐삳릺�뿀嫄곕굹, �쉶�썝沅뚯쓣 �벑濡앺븳 �쉶�썝DB�뿉 �쉶�썝�씠 議댁옱�븯吏� �븡�뒗 寃쎌슦
+			// 입력 값에 맞는 회원이 없으면 없다고 메시지 띄우기
 			if (!info_set.next()) {
 				t1.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
@@ -145,18 +147,18 @@ public class TrainerFrame extends JFrame {
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			} else {
-				// 蹂댁븞�쓣 �쐞�빐 password �솗�씤
+				// 비밀번호를 틀리면 에러 메시지 띄우기
 				if (!passwd.equals(info_set.getString("password"))) {
 					t1.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "Wrong password!<br/>"
 							+ "----------------------------------------------------------------------------------</body></html>");
 				} else {
-					// �쉶�썝�쓽 member_id�� 吏��젏 ���옣
+					// 현재 회원인 사용자이면
 					member_id = info_set.getString("member_id");
 					String member_branch = info_set.getString("branch");
 
-					// �빐�떦 �쉶�썝�쓽 吏��젏�뿉 �엳�뒗 trainer 紐⑸줉 寃��깋
+					// 신청할 수 있는 트레이너 목록 보여주기
 					pStmt = conn.prepareStatement(
 							"select * from DB2022_trainers join DB2022_career using(trainer_id) where branch =?;\r\n");
 					pStmt.setString(1, member_branch);
@@ -176,7 +178,6 @@ public class TrainerFrame extends JFrame {
 
 					}
 					t2.setText(t2.getText() + "----------------------------------------------------------------------------------</body></html>");
-					// �썝�븯�뒗 �듃�젅�씠�꼫�쓽 踰덊샇 �엯�젰
 					t3.setText("<html><body style='text-align:center;'>Please choose trainer number: </body></html>");
 					trainer_field.setVisible(true);
 				}
