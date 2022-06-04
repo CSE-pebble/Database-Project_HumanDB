@@ -15,14 +15,14 @@ public class MainFrame extends JFrame {
       setTitle("Ewha Gym");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   
-	// 메뉴 버튼 생성
+   // 메뉴 버튼 생성
       JButton branchBtn = new JButton("Branch Information");
       JButton registerBtn = new JButton ("Sign Up");
       JButton memberBtn = new JButton("My Page");
       JButton trainerBtn = new JButton("PT Application / Change Trainer");
       JButton employeeBtn = new JButton("Staff Page");
 	   
-	// 각 메뉴 버튼을 클릭하면 해당 프레임을 생성한다.
+   // 각 메뉴 버튼을 클릭하면 해당 프레임을 생성한다.
       branchBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -61,13 +61,13 @@ public class MainFrame extends JFrame {
     	  
 
       });
-	// Container에 패널 추가하기
+   // Container에 패널 추가하기
       content = getContentPane();
       content.setLayout(new FlowLayout());
       content.add(new JLabel("<html><body style='text-align:center;'>"
       		+ "----------------------------------------------------------------------------------<br/>"
       		+ "Hello!<br/>"
-      		+ "This Ewha Gym.<br/>"
+      		+ "Welcome to Ewha Gym.<br/>"
       		+ "Please choose the service.<br/>"
       		+ "</body></html>"));
       content.add(new JLabel("<html><body style='text-align:center;'>"
