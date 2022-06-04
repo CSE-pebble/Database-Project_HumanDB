@@ -20,17 +20,17 @@ import java.time.format.DateTimeFormatter;
 
 public class EnrollFrame extends JFrame {
 	
-	private Vector<Integer> id = new Vector<Integer>(); // 회원권 아이디를 담은 벡터
+	private Vector<Integer> id = new Vector<Integer>(); // �쉶�썝沅� �븘�씠�뵒瑜� �떞�� 踰≫꽣
 	private String member_id="";
 		
-	// 현재 날짜 받아와서 포매팅 
+	// �쁽�옱 �궇吏� 諛쏆븘���꽌 �룷留ㅽ똿 
 	LocalDate now = LocalDate.now();
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	String formatedNow = now.format(formatter);
 	java.sql.Date today = java.sql.Date.valueOf(formatedNow);
 	
 	
-	// 로그인 요소 
+	// 濡쒓렇�씤 �슂�냼 
 	private JTextField name_field = new JTextField(25);
 	private JTextField phone_field = new JTextField(25);
 	private JTextField passwd_field = new JTextField(25);
@@ -41,7 +41,7 @@ public class EnrollFrame extends JFrame {
 	private JButton signInBtn = new JButton("Sign In");
 
 	
-	// 회원권 등록 요소 
+	// �쉶�썝沅� �벑濡� �슂�냼 
 	private JLabel membership_number_insert = new JLabel();
 	private JTextField membership_field = new JTextField(4);
 	
@@ -65,7 +65,7 @@ public class EnrollFrame extends JFrame {
 		
 		id.clear();
 		
-		// 로그인 및 회원권 조회 
+		// 濡쒓렇�씤 諛� �쉶�썝沅� 議고쉶 
 		signInBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = name_field.getText();
@@ -76,7 +76,7 @@ public class EnrollFrame extends JFrame {
 			}
 		});
 		
-		// 회원권 등록 
+		// �쉶�썝沅� �벑濡� 
 		enrollBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String membership_id = membership_field.getText().trim()==null?"":membership_field.getText().trim();
@@ -122,7 +122,7 @@ public class EnrollFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	// 넘겨 받은 사용자 정보가 유효한지 판단한다.
+	// �꽆寃� 諛쏆� �궗�슜�옄 �젙蹂닿� �쑀�슚�븳吏� �뙋�떒�븳�떎.
 	void signIn(String member_name, String phone, String passwd) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
@@ -132,7 +132,7 @@ public class EnrollFrame extends JFrame {
 			pStmt.setString(2, phone);
 			ResultSet info_set = pStmt.executeQuery();
 			
-			// 회원가입이 되지 않은 멤버인 경우 
+			// �쉶�썝媛��엯�씠 �릺吏� �븡�� 硫ㅻ쾭�씤 寃쎌슦 
 			if (!info_set.next()) {
 				sign_in_result.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
@@ -141,14 +141,14 @@ public class EnrollFrame extends JFrame {
 						+ "</body></html>");
 			} else {
 				
-				// 비밀번호가 일치하지 않은 경우 
+				// 鍮꾨�踰덊샇媛� �씪移섑븯吏� �븡�� 寃쎌슦 
 				if (!passwd.equals(info_set.getString("password"))) {
 					sign_in_result.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "Wrong password!<br/>"
 							+ "----------------------------------------------------------------------------------</body></html>");
 				} else {
-					// 정상 로그인
+					// �젙�긽 濡쒓렇�씤
 					member_id = info_set.getString("member_id");
 
 					pStmt = conn.prepareStatement("select * from DB2022_membership;\r\n");
@@ -169,10 +169,10 @@ public class EnrollFrame extends JFrame {
 
 					}
 					
-					// 로그인 이후 화면 변환
+					// 濡쒓렇�씤 �씠�썑 �솕硫� 蹂��솚
 					membership_search_result.setText(membership_search_result.getText() + "----------------------------------------------------------------------------------</body></html>");					
 					membership_number_insert.setText("<html><body style='text-align:center;'>Please choose Membership number: </body></html>");
-					start_date_insert.setText("<html><body style='text-align:center;'> When will you start to use this Membership? ----- </body></html>");
+					start_date_insert.setText("<html><body style='text-align:center;'>---------- When will you start to use this Membership? ---------- </body></html>");
 					
 					showEnrollField(true);
 					}
@@ -185,7 +185,7 @@ public class EnrollFrame extends JFrame {
 	}
 	
 	void enrollMembership(java.sql.Date start_date, String membership_id) {
-		// 조회되지 않는 회원권인 경우 
+		// 議고쉶�릺吏� �븡�뒗 �쉶�썝沅뚯씤 寃쎌슦 
 		if (! id.contains(Integer.parseInt(membership_id))) {
 			membership_enroll_result.setText("<html><body style='text-align:center;'>"
 					+ "Wrong Membership number!<br />"
@@ -193,7 +193,7 @@ public class EnrollFrame extends JFrame {
 					+ "----------------------------------------------------------------------------------<br/>"
 					+ "</body></html>");
 		}
-		// 시작날짜가 등록날짜(오늘) 이전인 경우 
+		// �떆�옉�궇吏쒓� �벑濡앸궇吏�(�삤�뒛) �씠�쟾�씤 寃쎌슦 
 		else if (start_date.before(today)) {
 			membership_enroll_result.setText("<html><body style='text-align:center;'>"
 					+ "Start Date Must be After Today(" + formatedNow + "). <br/>" 
