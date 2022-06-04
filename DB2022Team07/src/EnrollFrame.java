@@ -217,7 +217,11 @@ public class EnrollFrame extends JFrame {
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
 			} catch (SQLException sqle) {
-				System.out.println("SQL Exception: " + sqle);
+				membership_enroll_result.setText("<html><body style='text-align:center;'>"
+						+ "You have already enrolled Membership.<br/>"
+						+ "Go To 'MyPage' and Check your Membership.<br/>"
+						+ "----------------------------------------------------------------------------------<br/>"
+						+ "</body></html>");
 			}
 		}
 	}
