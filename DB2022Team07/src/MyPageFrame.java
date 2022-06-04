@@ -16,10 +16,10 @@ public class MyPageFrame extends JFrame{
    private JLabel t1 = new JLabel();
    private JLabel t2 = new JLabel();
    private JLabel complete_label=new JLabel();
-   private JButton bmi_menu = new JButton("BMI Calculation"); // BMI 怨꾩궛 踰꾪듉
-	private JButton period_menu = new JButton("Membership Expiration Date Inquiry"); // �쉶�썝沅� 留뚮즺 �궇吏� 議고쉶 踰꾪듉
+   private JButton bmi_menu = new JButton("BMI Calculation"); // BMI 계산 버튼
+	private JButton period_menu = new JButton("Membership Expiration Date Inquiry"); // 회원권 만료 날짜 조회 버튼
    private JButton edit_menu = new JButton("Edit Member Information");
-   private JButton btn = new JButton("OK");  // �궗�슜�옄 �젙蹂� �젣異� 踰꾪듉
+   private JButton btn = new JButton("OK");  // 사용자 정보 제출 버튼
    private JButton edit_btn = new JButton("OK");
    
    private JLabel edit_label1 = new JLabel("password");
