@@ -21,7 +21,8 @@ public class MainFrame extends JFrame {
       JButton memberBtn = new JButton("My Page");
       JButton trainerBtn = new JButton("PT Application / Change Trainer");
       JButton employeeBtn = new JButton("Staff Page");
-	   
+      JButton enrollBtn = new JButton("Buy Membership");
+      
 	// 각 메뉴 버튼을 클릭하면 해당 프레임을 생성한다.
       branchBtn.addActionListener(new ActionListener() {
          @Override
@@ -52,15 +53,21 @@ public class MainFrame extends JFrame {
            new TrainerFrame();
          }
       });
+      enrollBtn.addActionListener(new ActionListener() {
+    	  @Override
+    	  public void actionPerformed(ActionEvent e) {
+    		  new EnrollFrame();
+    	  }
+      });
       employeeBtn.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			new EmployeeFrame();
 		}
-    	  
-
       });
+      
+      
 	// Container에 패널 추가하기
       content = getContentPane();
       content.setLayout(new FlowLayout());
@@ -81,6 +88,7 @@ public class MainFrame extends JFrame {
       		+ "</body></html>"));
       content.add(registerBtn);
       content.add(memberBtn);
+      content.add(enrollBtn);
       content.add(trainerBtn);
       content.add(new JLabel("<html><body style='text-align:center;'>"
       		+ "----------------------------------------------------------------------------------<br/>"
