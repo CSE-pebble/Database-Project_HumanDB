@@ -16,13 +16,13 @@ public class EmployeeFrame extends JFrame {
 	private JTextField passwd_field = new JTextField(25);
 	private JTextField new_branch_field = new JTextField(10);
 	private JTextField new_pwd_field = new JTextField(10);
-	private JButton identify_btn = new JButton("¡∂»∏");
-	private JButton quit_menu = new JButton("≈ªÁ Ω≈√ª");
-	private JButton move_menu = new JButton("¡ˆ¡° ¿Ãµø Ω≈√ª");
-	private JButton pwd_menu = new JButton("∫Òπ–π¯»£ ∫Ø∞Ê");
-	private JButton delete_menu = new JButton("»∏ø¯±«¿Ã ∏∏∑·µ» »∏ø¯ ªË¡¶");
+	private JButton identify_btn = new JButton("Search");
+	private JButton quit_menu = new JButton("Leave Company");
+	private JButton move_menu = new JButton("Change Branch");
+	private JButton pwd_menu = new JButton("Change Password");
+	private JButton delete_menu = new JButton("Delete Expired Member");
 
-	private JButton close = new JButton("√¢ ¥›±‚");
+	private JButton close = new JButton("Close");
 	private JLabel t1 = new JLabel();
 	private JLabel t2 = new JLabel();
 	private JLabel t3 = new JLabel();
@@ -68,7 +68,7 @@ public class EmployeeFrame extends JFrame {
 					if (!rset.next()) {
 						t1.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "¿ﬂ∏¯µ» ¡˜ø¯ ¡§∫∏¿‘¥œ¥Ÿ.<br/>" + "¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰.<br/>"
+								+ "Wrong Trainer Number!<br/>" + "Enter it Again.<br/>"
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
 					} else {
@@ -80,7 +80,7 @@ public class EmployeeFrame extends JFrame {
 						pwd_menu.setVisible(true);
 						t1.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "ø¯«œ¥¬ º≠∫ÒΩ∫∏¶ º±≈√«ÿ¡÷ººø‰.<br/>"
+								+ "Select Service You Want.<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 					}
@@ -121,14 +121,14 @@ public class EmployeeFrame extends JFrame {
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 						DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-					// ¿Ãµø ∞°¥…«— ¡ˆ¡° ∏ÆΩ∫∆Æ √‚∑¬
+					// Ïù¥Îèô Í∞ÄÎä•Ìïú ÏßÄÏ†ê Î¶¨Ïä§Ìä∏ Ï∂úÎ†•
 					PreparedStatement pStmt = conn
 							.prepareStatement("select name from DB2022_branches where name != ?;");
 					pStmt.setString(1, trainer_branch);
 					ResultSet rset = pStmt.executeQuery();
 					t2.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
-							+ "¿Ãµø ∞°¥…«— ¡ˆ¡° ∏ÆΩ∫∆Æ¿‘¥œ¥Ÿ.<br/>");
+							+ "You Can Change to ... <br/>");
 					while (rset.next()) {
 						branch_list.add(rset.getString("name"));
 						t2.setText(t2.getText() + rset.getString("name") + "<br/>");
@@ -140,7 +140,7 @@ public class EmployeeFrame extends JFrame {
 				t2.setText(t2.getText() + "</body></html>");
 				t3.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "ø¯«œ¥¬ ¡ˆ¡°¿ª ¿‘∑¬«œººø‰." + "</body></html>");
+						+ "Select Branch You Want." + "</body></html>");
 				new_branch_field.setVisible(true);
 			}
 		});
@@ -157,7 +157,7 @@ public class EmployeeFrame extends JFrame {
 
 				t2.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "ªı∑ŒøÓ ∫Òπ–π¯»£" + "</body></html>");
+						+ "New Password" + "</body></html>");
 				new_pwd_field.setVisible(true);
 			}
 
@@ -185,7 +185,7 @@ public class EmployeeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (new_pwd_field.getText().trim() != null) {
 					if (new_pwd_field.getText().trim().length() != 4) {
-						t3.setText("<html><body style='text-align:center;'>" + "∫Òπ–π¯»£¥¬ 4¿⁄∏Æ¿‘¥œ¥Ÿ.<br/>" + "¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰.<br/>"
+						t3.setText("<html><body style='text-align:center;'>" + "Password Must be 4 digits." + "Enter it Again.<br/>"
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
 					} else {
@@ -219,15 +219,15 @@ public class EmployeeFrame extends JFrame {
 		content.setLayout(new FlowLayout());
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* ∆Æ∑π¿Ã≥  ∏ﬁ¥∫ *" + "</body></html>"));
+				+ "* Trainer Menu *" + "</body></html>"));
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* ∫ª¿Œ »Æ¿Œ *<br/>" + "</body></html>"));
-		content.add(new JLabel("   ¿Ã∏ß    "));
+				+ "* Identification *<br/>" + "</body></html>"));
+		content.add(new JLabel("   Name  "));
 		content.add(name_field);
-		content.add(new JLabel("   ¡ˆ¡°    "));
+		content.add(new JLabel("   Branch   "));
 		content.add(branch_field);
-		content.add(new JLabel("∫Òπ–π¯»£"));
+		content.add(new JLabel("Password"));
 		content.add(passwd_field);
 		content.add(identify_btn);
 		content.add(t1);
@@ -241,7 +241,7 @@ public class EmployeeFrame extends JFrame {
 		content.add(t4);
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* ∞¸∏Æ¿⁄ ∏ﬁ¥∫ *<br/>"
+				+ "* Administrator Menu *<br/>"
 				+ "----------------------------------------------------------------------------------<br/>"
 				+ "</body></html>"));
 		content.add(delete_menu);
@@ -265,7 +265,7 @@ public class EmployeeFrame extends JFrame {
 
 			t2.setText("<html><body style='text-align:center;'>"
 					+ "----------------------------------------------------------------------------------<br/>"
-					+ "≈ªÁ Ω≈√ª µ«æ˙Ω¿¥œ¥Ÿ.<br/>"
+					+ "Leaving Company Done.<br/>"
 					+ "----------------------------------------------------------------------------------<br/>"
 					+ "</body></html>");
 			close.setVisible(true);
@@ -282,19 +282,19 @@ public class EmployeeFrame extends JFrame {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 			if (branch_list.contains(branch)) {
-				// «ÿ¥Á ∆Æ∑π¿Ã≥ ∞° ∏√¿∫ »∏ø¯¿« trainer -> null
+				// ÔøΩÿ¥ÔøΩ ∆ÆÔøΩÔøΩÔøΩÃ≥ ∞ÔøΩ ÔøΩÔøΩÔøΩÔøΩ »∏ÔøΩÔøΩÔøΩÔøΩ trainer -> null
 				PreparedStatement pStmt = conn
 						.prepareStatement("update DB2022_members set trainer = null where trainer=?;");
 				pStmt.setString(1, trainer);
 				pStmt.executeUpdate();
-				// «ÿ¥Á ∆Æ∑π¿Ã≥ ¿« ¡ˆ¡° ¡§∫∏ ∫Ø∞Ê
+				// ÔøΩÿ¥ÔøΩ ∆ÆÔøΩÔøΩÔøΩÃ≥ÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
 				pStmt = conn.prepareStatement("update DB2022_trainers set branch =? where trainer_id=?;");
 				pStmt.setString(1, branch);
 				pStmt.setString(2, trainer);
 				pStmt.executeUpdate();
 				t4.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "¡ˆ¡° ¿Ãµø Ω≈√ª µ«æ˙Ω¿¥œ¥Ÿ.<br/>"
+						+ "Your Branch is Changed.<br/>"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
 				trainer_branch = branch;
@@ -302,7 +302,7 @@ public class EmployeeFrame extends JFrame {
 			} else {
 				t4.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "¿ﬂ∏¯µ» ¡ˆ¡° ¿Ã∏ß¿‘¥œ¥Ÿ.<br/>" + "¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰.<br />"
+						+ "Wrong Branch Name!<br/>" + "Enter it Again.<br />"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
 			}
@@ -324,7 +324,7 @@ public class EmployeeFrame extends JFrame {
 
 			t3.setText("<html><body style='text-align:center;'>"
 					+ "----------------------------------------------------------------------------------<br/>"
-					+ "∫Òπ–π¯»£∞° ∫Ø∞Êµ«æ˙Ω¿¥œ¥Ÿ<br/>"
+					+ "Your Password is Changed.<br/>"
 					+ "----------------------------------------------------------------------------------<br/>"
 					+ "</body></html>");
 			close.setVisible(true);
@@ -341,19 +341,19 @@ public class EmployeeFrame extends JFrame {
 			if (!rset.next()) {
 				t5.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "∏∏∑·µ» »∏ø¯¿Ã æ¯Ω¿¥œ¥Ÿ.<br/>"
+						+ "There is No Expired Member.<br/>"
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			} else {
 				t5.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>");
 				do {
-					t5.setText(t5.getText() + rset.getString("name") + "¥‘<br/>");
+					t5.setText(t5.getText() + rset.getString("name") + "ÔøΩÔøΩ<br/>");
 					PreparedStatement pStmt = conn.prepareStatement("delete from DB2022_enroll where member_id=?");
 					pStmt.setString(1, rset.getString("member_id"));
 					pStmt.executeUpdate();
 				}while(rset.next());
-				t5.setText(t5.getText() + "»∏ø¯±« ¡§∫∏∞° ªË¡¶µ«æ˙Ω¿¥œ¥Ÿ.<br/>"
+				t5.setText(t5.getText() + "Membership Information is Deleted.<br/>"
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			}
