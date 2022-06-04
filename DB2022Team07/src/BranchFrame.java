@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// 吏��젏 愿��젴 GUI 
+// 지점 관련 GUI 
 public class BranchFrame extends JFrame {
    private JTextField year_field = new JTextField(25);
    private JTextField month_field = new JTextField(25);
