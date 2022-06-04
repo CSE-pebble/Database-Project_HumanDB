@@ -27,8 +27,6 @@ public class MainFrame extends JFrame {
          @Override
          public void actionPerformed(ActionEvent e) {
         	 new BranchFrame();
-            // Branch.Monthly_Revenue(content);
-            // Branch.Branch_Info(content);
          }
       });
       memberBtn.addActionListener(new ActionListener() {
