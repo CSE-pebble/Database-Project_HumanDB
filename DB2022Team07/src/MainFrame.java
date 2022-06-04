@@ -5,7 +5,6 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
    static List profitList = new List();
    static List infoList = new List();
-   static JPanel panel = new JPanel();
    static Container content;
 
    static boolean month = false;
