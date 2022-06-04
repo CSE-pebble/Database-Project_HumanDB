@@ -15,11 +15,11 @@ public class RegisterFrame extends JFrame {
 	JTextField branch_field = new JTextField(20);
 	JLabel branch_list = new JLabel();
 	JLabel label = new JLabel();
-	JLabel register = new JLabel("회원가입이 안료되었습니다");
+	JLabel register = new JLabel("Register completed");
 	Vector<String> branch_vec = new Vector<String>();
 
 	public RegisterFrame() {
-		setTitle("회원가입");
+		setTitle("Sign Up");
 		Container content = getContentPane();
 		content.setLayout(new FlowLayout());
 
@@ -36,9 +36,9 @@ public class RegisterFrame extends JFrame {
 
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* 회원 가입 *<br/>"
+				+ "* Sign Up *<br/>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "아래는 지점 정보입니다.<br />" + "고객님의 지점을 올바르게 입력해주세요.<br/>" + "</body></html>"));
+				+ "Here is Branch Info.<br />" + "Insert your branch.<br/>" + "</body></html>"));
 		branch_list.setText("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>");
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
@@ -55,28 +55,28 @@ public class RegisterFrame extends JFrame {
 			System.out.println("SQL Exception: " + sqle);
 		}
 		content.add(branch_list);
-		content.add(new JLabel("      이름         "));
+		content.add(new JLabel("      Name         "));
 		content.add(name_field);
 
-		content.add(new JLabel(" 휴대폰 번호  "));
+		content.add(new JLabel(" Phone  "));
 		content.add(phone_field);
 
-		content.add(new JLabel("    비밀번호    "));
+		content.add(new JLabel("    Password    "));
 		content.add(password_field);
 
-		content.add(new JLabel("    성별(F/M)    "));
+		content.add(new JLabel("    Gender(F/M)    "));
 		content.add(gender_field);
 
-		content.add(new JLabel("         키          "));
+		content.add(new JLabel("         Height          "));
 		content.add(height_field);
 
-		content.add(new JLabel("      몸무게      "));
+		content.add(new JLabel("      Weight      "));
 		content.add(weight_field);
 
-		content.add(new JLabel("      지점         "));
+		content.add(new JLabel("      Branch         "));
 		content.add(branch_field);
 
-		JButton btn = new JButton("회원가입");
+		JButton btn = new JButton("Sign Up");
 		content.add(btn);
 		content.add(label);
 
@@ -100,7 +100,7 @@ public class RegisterFrame extends JFrame {
 				} catch (NumberFormatException numException) {
 					label.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
-							+ "잘못된 전화번호 형식입니다.<br/>" + "다시 입력해주세요.<br/>"
+							+ "Invalid phone number.<br/>" + "Please enter it again.<br/>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "</body></html>");
 				} finally {
@@ -109,25 +109,25 @@ public class RegisterFrame extends JFrame {
 							|| weight.isEmpty() || branch.isEmpty()) {
 						label.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "필수 정보를 입력하세요<br/>"
+								+ "Please enter required information<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 					} else if (passwd.length() != 4) {
 						label.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "비밀번호는 4자리입니다.<br/>" + "다시 입력해주세요.<br/>"
+								+ "The password is four digits.<br/>" + "Please enter it again.<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 					} else if (!gender.equals("F") && !gender.equals("M")) {
 						label.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "성별은 F와 M으로<br/>" + "입력해주세요.<br/>"
+								+ "Gender must be either F or M.<br/>" + "Please enter it again.<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 					} else if (!branch_vec.contains(branch)) {
 						label.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
-								+ "잘못된 지점 이름입니다.<br/>" + "다시 입력해주세요.<br/>"
+								+ "Invalid branch name.<br/>" + "Please enter it again.<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 					} else
@@ -143,7 +143,7 @@ public class RegisterFrame extends JFrame {
 			String branch) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// 회원의 이름과 전화번호를 바탕으로 member_id 검색
+			// 회占쏙옙占쏙옙 占싱몌옙占쏙옙 占쏙옙화占쏙옙호占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 member_id 占싯삼옙
 			PreparedStatement pStmt = conn.prepareStatement("insert into DB2022_members values(?,?,?,?,?,?,?,?,?)");
 			ResultSet rSet = stmt.executeQuery("select count(*) as num from DB2022_members;");
 
@@ -162,7 +162,7 @@ public class RegisterFrame extends JFrame {
 				pStmt.executeUpdate();
 				label.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "회원가입이 완료되었습니다.<br/>"
+						+ "Your registration is completed<br/>"
 						+ "----------------------------------------------------------------------------------<br/>"
 						+ "</body></html>");
 			}
