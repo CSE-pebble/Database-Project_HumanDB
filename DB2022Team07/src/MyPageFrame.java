@@ -17,10 +17,10 @@ public class MyPageFrame extends JFrame {
 	private JLabel t1 = new JLabel();
 	private JLabel t2 = new JLabel();
 	private JLabel complete_label = new JLabel();
-	private JButton bmi_menu = new JButton("BMI Calculation"); // BMI 怨꾩궛 踰꾪듉
-	private JButton period_menu = new JButton("Membership Expiration Date Inquiry"); // �쉶�썝沅� 留뚮즺 �궇吏� 議고쉶 踰꾪듉
+	private JButton bmi_menu = new JButton("BMI Calculation"); // BMI 계산 버튼
+	private JButton period_menu = new JButton("Membership Expiration Date Inquiry"); // 회원권 만료 날짜 조회 버튼
 	private JButton edit_menu = new JButton("Edit Member Information");
-	private JButton btn = new JButton("OK"); // �궗�슜�옄 �젙蹂� �젣異� 踰꾪듉
+	private JButton btn = new JButton("OK"); // 사용자 정보 제출 버튼
 	private JButton edit_btn = new JButton("OK");
 
 	private JLabel edit_label1 = new JLabel("password");
@@ -43,7 +43,7 @@ public class MyPageFrame extends JFrame {
 		period_menu.setVisible(false);
 		edit_menu.setVisible(false);
 
-		// Container�뿉 �븘�뱶 異붽�
+		// Container에 필드 추가
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
 		contentPane.add(new JLabel("<html><body style='text-align:center;'>"
@@ -100,7 +100,7 @@ public class MyPageFrame extends JFrame {
 				try (Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 						DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-					// �엯�젰�맂 �궗�슜�옄 �젙蹂대�� 諛뷀깢�쑝濡� �쉶�썝 �젙蹂� 遺덈윭�삤湲�
+					// 입력된 사용자 정보를 바탕으로 회원 정보 불러오기
 					PreparedStatement pStmt = conn.prepareStatement(
 							"select membership, height, weight, phone, end_date "
 							+ "from DB2022_members join DB2022_period using(member_id) "
@@ -110,7 +110,7 @@ public class MyPageFrame extends JFrame {
 					pStmt.setString(3, passwd);
 					ResultSet rset = pStmt.executeQuery();
 
-					// �빐�떦 �쉶�썝�씠 議댁옱�븯吏� �븡�쑝硫� �뿉�윭 硫붿떆吏� �쓣�슦湲�
+					// 해당 회원이 존재하지 않으면 에러 메시지 띄우기
 					if (!rset.next()) {
 						t1.setText("<html><body style='text-align:center;'>"
 								+ "----------------------------------------------------------------------------------<br/>"
@@ -118,7 +118,7 @@ public class MyPageFrame extends JFrame {
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
 					} else {
-						// 議댁옱�븯�뒗 �쉶�썝�씠硫� �궎, 紐몃Т寃�, 留뚮즺 �궇吏� �젙蹂� 蹂댁뿬二쇨린
+						// 존재하는 회원이면 키, 몸무게, 만료 날짜 정보 보여주기
 						height = rset.getString("height");
 						weight = rset.getString("weight");
 						phone = rset.getString("phone");
@@ -143,7 +143,7 @@ public class MyPageFrame extends JFrame {
 			}
 		});
 
-		// BMI 怨꾩궛 踰꾪듉 �겢由� �떆, BMI 怨꾩궛�븯�뒗 �씠踰ㅽ듃 異붽�
+		// BMI 계산 버튼 클릭 시, BMI 계산하는 이벤트 추가
 		bmi_menu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -164,7 +164,7 @@ public class MyPageFrame extends JFrame {
 
 		});
 
-		// �쉶�썝沅� 留뚮즺 �궇吏� 議고쉶 踰꾪듉 �겢由� �떆, 留뚮즺 �궇吏� 蹂댁뿬二쇰뒗 �씠踰ㅽ듃 異붽�
+		// 회원권 만료 날짜 조회 버튼 클릭 시, 만료 날짜 보여주는 이벤트 추가
 		period_menu.addActionListener(new ActionListener() {
 
 			@Override
@@ -186,7 +186,7 @@ public class MyPageFrame extends JFrame {
 			}
 
 		});
-		// �쉶�썝 �젙蹂� �닔�젙 �씠踰ㅽ듃 泥섎━
+		//회원 정보 수정 이벤트 처리
 		edit_menu.addActionListener(new ActionListener() {
 
 			@Override
@@ -203,9 +203,9 @@ public class MyPageFrame extends JFrame {
 
 				edit_passwd.setText(passwd);
 				edit_height.setText(height);
-				edit_weight.setText(weight); // �븘�뱶�뿉 �엯�젰�븳 媛� 諛쏆븘�� ���옣
+				edit_weight.setText(weight); //필드에 입력한 값 받아와 저장
 
-				// �겢由� �떆 �쉶�썝 �젙蹂� �뾽�뜲�씠�듃
+				 // 클릭 시 회원 정보 업데이트
 				edit_btn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -213,7 +213,7 @@ public class MyPageFrame extends JFrame {
 						String new_height = edit_height.getText().trim();
 						String new_weight = edit_weight.getText().trim();
 
-						// 鍮꾨�踰덊샇 4�옄由� �븘�땲硫� �삤瑜� 硫붿꽭吏� 異쒕젰, �뾽�뜲�씠�듃 X
+						 // 비밀번호 4자리 아니면 오류 메세지 출력, 업데이트 X
 						if (new_passwd.length() != 4) {
 							complete_label.setText("<html><body style='text-align:center;'>"
 									+ "----------------------------------------------------------------------------------<br/>"
@@ -221,7 +221,7 @@ public class MyPageFrame extends JFrame {
 									+ "----------------------------------------------------------------------------------<br/>"
 									+ "</body></html>");
 						}
-						// 鍮꾨�踰덊샇 4�옄由ъ씠硫� �젙蹂� �뾽�뜲�씠�듃
+						 // 비밀번호 4자리이면 정보 업데이트
 						else {
 							try (Connection conn = DriverManager.getConnection(
 									"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
@@ -237,7 +237,7 @@ public class MyPageFrame extends JFrame {
 							} catch (SQLException sqle) {
 								System.out.println("SQLException: " + sqle);
 							}
-							// �뾽�뜲�씠�듃 �셿猷� �썑 �꽦怨� 硫붿꽭吏� 異쒕젰
+							 // 업데이트 완료 후 성공 메세지 출력
 							complete_label.setText("<html><body style='text-align:center;'>"
 									+ "----------------------------------------------------------------------------------<br/>"
 									+ "Edit Completed.<br />"
