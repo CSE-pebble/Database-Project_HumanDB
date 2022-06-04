@@ -70,7 +70,7 @@ public class TrainerFrame extends JFrame {
 		trainer_field.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String trainer_id = trainer_field.getText().trim()==null?"":trainer_field.getText().trim();
-				// 선택한 trainer로 변경 혹은 등록
+				// �꽑�깮�븳 trainer濡� 蹂�寃� �샊�� �벑濡�
 				if (id.contains(Integer.parseInt(trainer_id))) {
 					try (Connection conn = DriverManager.getConnection(
 							"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
@@ -91,8 +91,8 @@ public class TrainerFrame extends JFrame {
 				}
 				else {
 					t4.setText("<html><body style='text-align:center;'>"
-							+ "Wrong Trainer Number!<br />"
-							+ "Enter it Again.<br/>"
+							+ "Wrong trainer number!<br />"
+							+ "Enter it again.<br/>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "</body></html>");
 				}
@@ -105,12 +105,12 @@ public class TrainerFrame extends JFrame {
 				+ "----------------------------------------------------------------------------------<br/>"
 				+ "Enroll PT / Change Trainer<br />"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* Identification *</body></html>"));
-		contentPane.add(new JLabel("   Name   "));
+				+ "* Hereby Certify *</body></html>"));
+		contentPane.add(new JLabel("    Name    "));
 		contentPane.add(name_field);
 		contentPane.add(new JLabel("Telephone"));
 		contentPane.add(phone_field);
-		contentPane.add(new JLabel("Password"));
+		contentPane.add(new JLabel(" Password "));
 		contentPane.add(passwd_field);
 		contentPane.add(btn);
 		contentPane.add(t1);
@@ -127,13 +127,13 @@ public class TrainerFrame extends JFrame {
 	void Trainer_Change(String member_name, String phone, String passwd) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// 회원의 이름과 전화번호를 바탕으로 member_id 검색
+			// �쉶�썝�쓽 �씠由꾧낵 �쟾�솕踰덊샇瑜� 諛뷀깢�쑝濡� member_id 寃��깋
 			PreparedStatement pStmt = conn.prepareStatement(
 					"select * from DB2022_members join DB2022_enroll using(member_id) where name=? and phone=?;");
 			pStmt.setString(1, member_name);
 			pStmt.setString(2, phone);
 			ResultSet info_set = pStmt.executeQuery();
-			// 회원 정보가 잘못되었거나, 회원권을 등록한 회원DB에 회원이 존재하지 않는 경우
+			// �쉶�썝 �젙蹂닿� �옒紐삳릺�뿀嫄곕굹, �쉶�썝沅뚯쓣 �벑濡앺븳 �쉶�썝DB�뿉 �쉶�썝�씠 議댁옱�븯吏� �븡�뒗 寃쎌슦
 			if (!info_set.next()) {
 				t1.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
@@ -141,18 +141,18 @@ public class TrainerFrame extends JFrame {
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			} else {
-				// 보안을 위해 password 확인
+				// 蹂댁븞�쓣 �쐞�빐 password �솗�씤
 				if (!passwd.equals(info_set.getString("password"))) {
 					t1.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
-							+ "Wrong Password!<br/>"
+							+ "Wrong password!<br/>"
 							+ "----------------------------------------------------------------------------------</body></html>");
 				} else {
-					// 회원의 member_id와 지점 저장
+					// �쉶�썝�쓽 member_id�� 吏��젏 ���옣
 					member_id = info_set.getString("member_id");
 					String member_branch = info_set.getString("branch");
 
-					// 해당 회원의 지점에 있는 trainer 목록 검색
+					// �빐�떦 �쉶�썝�쓽 吏��젏�뿉 �엳�뒗 trainer 紐⑸줉 寃��깋
 					pStmt = conn.prepareStatement(
 							"select * from DB2022_trainers join DB2022_career using(trainer_id) where branch =?;\r\n");
 					pStmt.setString(1, member_branch);
@@ -161,19 +161,19 @@ public class TrainerFrame extends JFrame {
 					t1.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "This is a list of trainers<br /> "
-							+ " belonging to your branch."
+							+ "belonging to your branch."
 							+ "</body></html>");
 					t2.setText("<html><body style='text-align:center;'>");
 					while (trainer_set.next()) {
 						id.add(trainer_set.getInt("trainer_id"));
-						t2.setText(t2.getText() + "No." + trainer_set.getString("trainer_id") + " "
+						t2.setText(t2.getText() + "[" + trainer_set.getString("trainer_id")+"]" + " "
 								+ trainer_set.getString("name") + ", Career: " + trainer_set.getString("career_year") + " year "
 								+ trainer_set.getString("career_month") + " months<br />");
 
 					}
 					t2.setText(t2.getText() + "----------------------------------------------------------------------------------</body></html>");
-					// 원하는 트레이너의 번호 입력
-					t3.setText("<html><body style='text-align:center;'>Enter Trainer Number You Want</body></html>");
+					// �썝�븯�뒗 �듃�젅�씠�꼫�쓽 踰덊샇 �엯�젰
+					t3.setText("<html><body style='text-align:center;'>Please choose trainer number: </body></html>");
 					trainer_field.setVisible(true);
 				}
 			}
