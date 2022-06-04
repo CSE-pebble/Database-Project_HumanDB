@@ -14,13 +14,15 @@ public class Member extends JFrame {
 
 	static boolean expire = false;
 	static boolean bmi = false;
-
+	
+	// íŒ¨ë„ì„ ìƒì„±í•˜ì—¬ ë§Œë£Œëœ íšŒì›ê¶Œì„ ë³´ì—¬ì£¼ê³  ì‚­ì œí•œë‹¤.
+   	// í•´ë‹¹ íŒ¨ë„ì„ Container ë§¤ê°œ ë³€ìˆ˜ì— ì¶”ê°€í•œë‹¤.
 	public static void Expired_Member(Container content) {
 		if (!expire) {
 			expire = true;
-			panel.add(new JLabel("------È¸¿ø±Ç ¸¸·á È¸¿ø »èÁ¦------"));
+			panel.add(new JLabel("------íšŒì›ê¶Œ ë§Œë£Œ íšŒì› ì‚­ì œ------"));
 			panel.add(expiredList);
-			JButton show = new JButton("»èÁ¦");
+			JButton show = new JButton("ì‚­ì œ");
 			panel.add(show);
 
 			show.addActionListener(new ActionListener() {
@@ -40,7 +42,7 @@ public class Member extends JFrame {
 
 						while (rset.next()) {
 							String date = rset.getString("start_date");
-							String str = (rset.getString("name") + " È¸¿ø " + date + " ~ " + rset.getString("end_date"));
+							String str = (rset.getString("name") + " íšŒì› " + date + " ~ " + rset.getString("end_date"));
 
 							expiredList.add(str);
 
@@ -65,21 +67,22 @@ public class Member extends JFrame {
 		panel.setVisible(panel.isVisible() ? false : true);
 
 	}
-
+	// ì´ë¦„ ,ì „í™”ë²ˆí˜¸, ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥ í•„ë“œë¥¼ ìƒì„±í•˜ê³ , ì •ë³´ ì…ë ¥ ì‹œ ì‚¬ìš©ìì˜ BMIë¥¼ ë³´ì—¬ì¤€ë‹¤.
+   	// ìƒì„±í•œ íŒ¨ë„ì„ Container ë§¤ê°œ ë³€ìˆ˜ì— ì¶”ê°€í•œë‹¤.
 	public static void BMI_Calculator(Container content) {
 		if (!bmi) {
 			bmi = true;
-			panel.add(new JLabel("------BMI Á¶È¸------"));
-			panel.add(new JLabel("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä"));
+			panel.add(new JLabel("------BMI ì¡°íšŒ------"));
+			panel.add(new JLabel("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”"));
 			JTextField name_field = new JTextField(10);
 			panel.add(name_field);
-			panel.add(new JLabel("ÀüÈ­¹øÈ£À» ÀÔ·ÂÇÏ¼¼¿ä"));
+			panel.add(new JLabel("ì „í™”ë²ˆí˜¸ì„ ì…ë ¥í•˜ì„¸ìš”"));
 			JTextField phone_field = new JTextField(10);
 			panel.add(phone_field);
-			panel.add(new JLabel("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä"));
+			panel.add(new JLabel("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”"));
 			JTextField passwd_field = new JTextField(10);
 			panel.add(passwd_field);
-			JButton calc = new JButton("BMI Á¶È¸");
+			JButton calc = new JButton("BMI ì¡°íšŒ");
 			panel.add(calc);
 
 			calc.addActionListener(new ActionListener() {
@@ -93,25 +96,25 @@ public class Member extends JFrame {
 					try (Connection conn = DriverManager.getConnection(
 							"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
 							DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-						// È¸¿øÀÇ ÀÌ¸§°ú ÀüÈ­¹øÈ£¸¦ ¹ÙÅÁÀ¸·Î member_id °Ë»ö
+						// íšŒì›ì˜ ì´ë¦„ê³¼ ì „í™”ë²ˆí˜¸ë¥¼ ë°”íƒ•ìœ¼ë¡œ member_id ê²€ìƒ‰
 						PreparedStatement pStmt = conn.prepareStatement(
 								"select * from DB2022_members join DB2022_enroll using(member_id) where name=? and phone=?;");
 						pStmt.setString(1, name);
 						pStmt.setString(2, phone);
 						ResultSet info_set = pStmt.executeQuery();
-						// È¸¿ø Á¤º¸°¡ Àß¸øµÇ¾ú°Å³ª, È¸¿ø±ÇÀ» µî·ÏÇÑ È¸¿øDB¿¡ È¸¿øÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì
+						// íšŒì› ì •ë³´ê°€ ì˜ëª»ë˜ì—ˆê±°ë‚˜, íšŒì›ê¶Œì„ ë“±ë¡í•œ íšŒì›DBì— íšŒì›ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 						if (!info_set.next()) {
-							BMI.setText("Á¸ÀçÇÏÁö ¾Ê´Â È¸¿øÀÔ´Ï´Ù.");
+							BMI.setText("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” íšŒì›ì…ë‹ˆë‹¤.");
 						} else {
-							// º¸¾ÈÀ» À§ÇØ password È®ÀÎ
+							// ë³´ì•ˆì„ ìœ„í•´ password í™•ì¸
 							if (!passwd.equals(info_set.getString("password"))) {
-								BMI.setText("ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.");
+								BMI.setText("ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
 							} else {
 								pStmt = conn.prepareStatement("select name, (weight/((height/100)*(height/100))) as score from DB2022_members as members where members.name=?;");
 								pStmt.setString(1, name);
 								ResultSet rset = pStmt.executeQuery();
 								rset.next();
-								BMI.setText("<html><body style='text-align:center;'>BMI Á¡¼ö´Â<br /> " + rset.getString("score")+ "ÀÔ´Ï´Ù.<br /></body></html>");
+								BMI.setText("<html><body style='text-align:center;'>BMI ì ìˆ˜ëŠ”<br /> " + rset.getString("score")+ "ì…ë‹ˆë‹¤.<br /></body></html>");
 							}
 
 						}
