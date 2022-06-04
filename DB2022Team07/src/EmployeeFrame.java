@@ -185,7 +185,7 @@ public class EmployeeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (new_pwd_field.getText().trim() != null) {
 					if (new_pwd_field.getText().trim().length() != 4) {
-						t3.setText("<html><body style='text-align:center;'>" + "Password must be 4 digits.<br/>" + "Please enter it again.<br/>"
+						t3.setText("<html><body style='text-align:center;'>" + "Wrong password.<br/>" + "Please enter it again.<br/>"
 								+ "----------------------------------------------------------------------------------"
 								+ "</body></html>");
 					} else {
@@ -324,7 +324,7 @@ public class EmployeeFrame extends JFrame {
 
 			t3.setText("<html><body style='text-align:center;'>"
 					+ "----------------------------------------------------------------------------------<br/>"
-					+ "Your Password is Changed.<br/>"
+					+ "Password is changed.<br/>"
 					+ "----------------------------------------------------------------------------------<br/>"
 					+ "</body></html>");
 			close.setVisible(true);
@@ -341,7 +341,7 @@ public class EmployeeFrame extends JFrame {
 			if (!rset.next()) {
 				t5.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "There is No Expired Member.<br/>"
+						+ "There is no expired member.<br/>"
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			} else {
