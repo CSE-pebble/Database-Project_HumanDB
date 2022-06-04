@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 public class EnrollFrame extends JFrame {
 	
-	private Vector<Integer> id = new Vector<Integer>(); // �쉶�썝沅� �븘�씠�뵒瑜� �떞�� 踰≫꽣
+	private Vector<Integer> id = new Vector<Integer>(); // 구매할 수 있는 회원권 ID
 	private String member_id="";
 		
 	// 현재 날짜 받아와서 포매팅 
