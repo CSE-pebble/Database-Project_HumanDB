@@ -17,7 +17,7 @@ public class RegisterFrame extends JFrame {
 	JLabel label = new JLabel();
 	JLabel register = new JLabel("Register completed");
 	Vector<String> branch_vec = new Vector<String>();
-	
+
 	// 회원가입 GUI를 생성한다.
 	// 입력값이 유효한지 판단하고 회원가입을 진행한다.
 	public RegisterFrame() {
@@ -58,25 +58,25 @@ public class RegisterFrame extends JFrame {
 			System.out.println("SQL Exception: " + sqle);
 		}
 		content.add(branch_list);
-		content.add(new JLabel("      Name         "));
+		content.add(new JLabel("ㅤㅤ  Nameㅤ ㅤ  "));
 		content.add(name_field);
 
-		content.add(new JLabel("       Phone       "));
+		content.add(new JLabel("ㅤㅤ Phoneㅤ  ㅤ "));
 		content.add(phone_field);
 
-		content.add(new JLabel("     Password    "));
+		content.add(new JLabel(" ㅤ Password ㅤ   "));
 		content.add(password_field);
 
-		content.add(new JLabel("  Gender(F/M)  "));
+		content.add(new JLabel("ㅤGender(F/M)ㅤ"));
 		content.add(gender_field);
 
-		content.add(new JLabel("      Height       "));
+		content.add(new JLabel("ㅤㅤ Heightㅤ      "));
 		content.add(height_field);
 
-		content.add(new JLabel("      Weight       "));
+		content.add(new JLabel("ㅤㅤ Weightㅤ      "));
 		content.add(weight_field);
 
-		content.add(new JLabel("      Branch        "));
+		content.add(new JLabel("ㅤㅤ Branchㅤ      "));
 		content.add(branch_field);
 
 		JButton btn = new JButton("Sign Up");
@@ -98,60 +98,68 @@ public class RegisterFrame extends JFrame {
 				String weight = weight_field.getText().trim();
 				String branch = branch_field.getText().trim();
 				
-				// 전화번호 형식이 잘못되면 에러 메시지 띄우기
-				try {
-					int phone_num = Integer.parseInt(phone);
-				} catch (NumberFormatException numException) {
+				//전화번호 유효성 검사
+				boolean phone_flag=true;
+				
+				if(phone.length()!=11) phone_flag=false;
+				else {
+					for(int i=0; i<phone.length(); i++) {
+						char tmp=phone.charAt(i);
+						if (!Character.isDigit(tmp)) phone_flag=false;
+					}
+				}
+				
+				// 회원 가입 시 기입한 정보 잘못되면 에러 메시지 띄우기
+
+				// 빈 값을 넘기면 에러 메시지 띄우기
+				if (name.isEmpty() || phone.isEmpty() || passwd.isEmpty() || gender.isEmpty() || height.isEmpty()
+						|| weight.isEmpty() || branch.isEmpty()) {
+					label.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "Please enter required information<br/>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "</body></html>");
+				} else if (!phone_flag) {
 					label.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "Invalid phone number.<br/>" + "Please enter it again.<br/>"
 							+ "----------------------------------------------------------------------------------<br/>"
+							+ "</body></html>");	
+				} else if (passwd.length() != 4) {
+					// 비밀번호가 4자리가 아니면 에러 메시지 띄우기
+					label.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "The password is four digits.<br/>" + "Please enter it again.<br/>"
+							+ "----------------------------------------------------------------------------------<br/>"
 							+ "</body></html>");
-				} finally {
-					// 빈 값을 넘기면 에러 메시지 띄우기
-					if (name.isEmpty() || phone.isEmpty() || passwd.isEmpty() || gender.isEmpty() || height.isEmpty()
-							|| weight.isEmpty() || branch.isEmpty()) {
-						label.setText("<html><body style='text-align:center;'>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "Please enter required information<br/>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "</body></html>");
-					} else if (passwd.length() != 4) {
-						// 비밀번호가 4자리가 아니면 에러 메시지 띄우기
-						label.setText("<html><body style='text-align:center;'>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "The password is four digits.<br/>" + "Please enter it again.<br/>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "</body></html>");
-					} else if (!gender.equals("F") && !gender.equals("M")) {
-						// 성별이 F/M 외의 값이면 에러 메시지 띄우기
-						label.setText("<html><body style='text-align:center;'>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "Gender must be either F or M.<br/>" + "Please enter it again.<br/>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "</body></html>");
-					} else if (!branch_vec.contains(branch)) {
-						// 없는 지점을 입력하면 에러 메시지 띄우기
-						label.setText("<html><body style='text-align:center;'>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "Invalid branch name.<br/>" + "Please enter it again.<br/>"
-								+ "----------------------------------------------------------------------------------<br/>"
-								+ "</body></html>");
-					} else
-						Register(name, phone, passwd, gender, height, weight, branch);
+				} else if (!gender.equals("F") && !gender.equals("M")) {
+					// 성별이 F/M 외의 값이면 에러 메시지 띄우기
+					label.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "Gender must be either F or M.<br/>" + "Please enter it again.<br/>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "</body></html>");
+				} else if (!branch_vec.contains(branch)) {
+					// 없는 지점을 입력하면 에러 메시지 띄우기
+					label.setText("<html><body style='text-align:center;'>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "Invalid branch name.<br/>" + "Please enter it again.<br/>"
+							+ "----------------------------------------------------------------------------------<br/>"
+							+ "</body></html>");
+				} else
+					Register(name, phone, passwd, gender, height, weight, branch);
 				
-				}
 			}
 		});
 
 	}
-	
+
 	// 유효한 사용자 정보를 DB에 추가하고 회원가입을 완료한다.
 	void Register(String name, String phone, String passwd, String gender, String height, String weight,
 			String branch) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// member table에 tuple를 하나 삽입한다.
+			// member table에 tuple를 하나 삽입한다
 			PreparedStatement pStmt = conn.prepareStatement("insert into DB2022_members values(?,?,?,?,?,?,?,?,?)");
 			ResultSet rSet = stmt.executeQuery("select count(*) as num from DB2022_members;");
 
