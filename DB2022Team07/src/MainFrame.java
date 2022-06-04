@@ -17,22 +17,22 @@ public class MainFrame extends JFrame {
    public MainFrame() {
       setTitle("Ewha Gym");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      JButton branchBtn = new JButton("ì§€ì ");
-      JButton memberBtn = new JButton("íšŒì›");
-      JButton trainerBtn = new JButton("íŠ¸ë ˆì´ë„ˆ ë“±ë¡ / ë³€ê²½");
-      JButton employeeBtn = new JButton("ì§ì› ì„œë¹„ìŠ¤");
+
+      JButton branchBtn = new JButton("ÁöÁ¡");
+      JButton memberBtn = new JButton("¸¶ÀÌ ÆäÀÌÁö");
+      JButton trainerBtn = new JButton("Æ®·¹ÀÌ³Ê µî·Ï / º¯°æ");
+      JButton employeeBtn = new JButton("Á÷¿ø ÆäÀÌÁö");
       
       branchBtn.addActionListener(new ActionListener() {
          @Override
-	 // ì§€ì  ê´€ë ¨ íŒ¨ë„ ì‹¤í–‰
          public void actionPerformed(ActionEvent e) {
-            Branch.Monthly_Revenue(content);
-            Branch.Branch_Info(content);
+        	 new BranchFrame();
+            // Branch.Monthly_Revenue(content);
+            // Branch.Branch_Info(content);
          }
       });
       memberBtn.addActionListener(new ActionListener() {
          @Override
-	// íšŒì› ê´€ë ¨ íŒ¨ë„ ì‹¤í–‰
          public void actionPerformed(ActionEvent e) {
             Member.Expired_Member(content);
             Member.BMI_Calculator(content);
@@ -41,33 +41,43 @@ public class MainFrame extends JFrame {
       });
       trainerBtn.addActionListener(new ActionListener() {
          @Override
-	 // íŠ¸ë ˆì´ë„ˆ ê´€ë ¨ í”„ë ˆì„ ìƒì„± (ìƒˆ ì°½)
          public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
-            TrainerFrame T_frame = new TrainerFrame();
+           new TrainerFrame();
          }
       });
       employeeBtn.addActionListener(new ActionListener() {
-	@Override
-	// ì§ì› ì„œë¹„ìŠ¤ ê´€ë ¨ í”„ë ˆì„ ìƒì„± (ìƒˆ ì°½)
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		EmployeeFrame E_frame = new EmployeeFrame();
-	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			new EmployeeFrame();
+		}
+    	  
 
       });
       content = getContentPane();
       content.setLayout(new FlowLayout());
       content.add(new JLabel("<html><body style='text-align:center;'>"
       		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "ì•ˆë…•í•˜ì„¸ìš”!<br/>"
-      		+ "Ewha Gymì…ë‹ˆë‹¤.<br/>"
-      		+ "ì›í•˜ì‹œëŠ” ì„œë¹„ìŠ¤ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.<br/>"
-      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "¾È³çÇÏ¼¼¿ä!<br/>"
+      		+ "Ewha GymÀÔ´Ï´Ù.<br/>"
+      		+ "¿øÇÏ½Ã´Â ¼­ºñ½º¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.<br/>"
       		+ "</body></html>"));
+      content.add(new JLabel("<html><body style='text-align:center;'>"
+        		+ "----------------------------------------------------------------------------------<br/>"
+        		+ "* ÁöÁ¡º° Á¤º¸ Á¶È¸ *<br/>"
+        		+ "</body></html>"));
       content.add(branchBtn);
+      content.add(new JLabel("<html><body style='text-align:center;'>"
+      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "* È¸¿ø ¼­ºñ½º *<br/>"
+      		+ "</body></html>"));
       content.add(memberBtn);
       content.add(trainerBtn);
+      content.add(new JLabel("<html><body style='text-align:center;'>"
+      		+ "----------------------------------------------------------------------------------<br/>"
+      		+ "* Á÷¿ø ¼­ºñ½º *<br/>"
+      		+ "</body></html>"));
       content.add(employeeBtn);
       
       setSize(350, 700);
