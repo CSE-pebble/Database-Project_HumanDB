@@ -38,7 +38,7 @@ public class RegisterFrame extends JFrame {
 				+ "----------------------------------------------------------------------------------<br/>"
 				+ "* Sign Up *<br/>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "Here is Branch Info.<br />" + "Insert your branch.<br/>" + "</body></html>"));
+				+ "Here is branch name info.<br />" + "Please enter a branch from the list below. <br/>" + "</body></html>"));
 		branch_list.setText("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>");
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
