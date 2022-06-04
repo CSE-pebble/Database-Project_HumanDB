@@ -40,6 +40,7 @@ public class TrainerFrame extends JFrame {
 		passwd_field.setText("");
 		trainer_field.setText("");
 		
+		// 버튼 클릭 시, 사용자가 입력한 회원 정보를 빋아온다.
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = name_field.getText().trim()==null?"":name_field.getText().trim();
@@ -48,6 +49,8 @@ public class TrainerFrame extends JFrame {
 				Trainer_Change(name, phone, passwd);
 			}
 		});
+		
+		// 닫기 버튼 클릭 시, 필드 값을 초기화한다.
 		close.addActionListener(new ActionListener() {
 
 			@Override
@@ -90,6 +93,7 @@ public class TrainerFrame extends JFrame {
 					}
 				}
 				else {
+					// 존재하는 트레이너 정보가 아니면 에러 메시지 띄우기
 					t4.setText("<html><body style='text-align:center;'>"
 							+ "Wrong trainer number!<br />"
 							+ "Enter it again.<br/>"
