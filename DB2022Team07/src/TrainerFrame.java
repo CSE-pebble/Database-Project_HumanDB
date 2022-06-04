@@ -70,7 +70,7 @@ public class TrainerFrame extends JFrame {
 		trainer_field.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String trainer_id = trainer_field.getText().trim()==null?"":trainer_field.getText().trim();
-				// ¼±ÅÃÇÑ trainer·Î º¯°æ È¤Àº µî·Ï
+				// ì„ íƒí•œ trainerë¡œ ë³€ê²½ í˜¹ì€ ë“±ë¡
 				if (id.contains(Integer.parseInt(trainer_id))) {
 					try (Connection conn = DriverManager.getConnection(
 							"jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
@@ -81,7 +81,7 @@ public class TrainerFrame extends JFrame {
 						pStmt.setString(2, member_id);
 						pStmt.executeUpdate();
 						t4.setText("<html><body style='text-align:center;'>"
-								+ "Æ®·¹ÀÌ³Ê°¡ µî·ÏµÇ¾ú½À´Ï´Ù.<br/>"
+								+ "Trainer Registration Completed.<br/>"
 								+ "----------------------------------------------------------------------------------<br/>"
 								+ "</body></html>");
 						close.setVisible(true);
@@ -91,8 +91,8 @@ public class TrainerFrame extends JFrame {
 				}
 				else {
 					t4.setText("<html><body style='text-align:center;'>"
-							+ "Àß¸øµÈ Æ®·¹ÀÌ³Ê ¹øÈ£ÀÔ´Ï´Ù.<br />"
-							+ "´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.<br/>"
+							+ "Wrong Trainer Number!<br />"
+							+ "Enter it Again.<br/>"
 							+ "----------------------------------------------------------------------------------<br/>"
 							+ "</body></html>");
 				}
@@ -103,14 +103,14 @@ public class TrainerFrame extends JFrame {
 		contentPane.setLayout(new FlowLayout());
 		contentPane.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "PT ½ÅÃ» / Æ®·¹ÀÌ³Ê º¯°æ<br />"
+				+ "Enroll PT / Change Trainer<br />"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ "* º»ÀÎ È®ÀÎ *</body></html>"));
-		contentPane.add(new JLabel("   ÀÌ¸§    "));
+				+ "* Identification *</body></html>"));
+		contentPane.add(new JLabel("   Name   "));
 		contentPane.add(name_field);
-		contentPane.add(new JLabel("ÀüÈ­¹øÈ£"));
+		contentPane.add(new JLabel("Telephone"));
 		contentPane.add(phone_field);
-		contentPane.add(new JLabel("ºñ¹Ğ¹øÈ£"));
+		contentPane.add(new JLabel("Password"));
 		contentPane.add(passwd_field);
 		contentPane.add(btn);
 		contentPane.add(t1);
@@ -127,32 +127,32 @@ public class TrainerFrame extends JFrame {
 	void Trainer_Change(String member_name, String phone, String passwd) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// È¸¿øÀÇ ÀÌ¸§°ú ÀüÈ­¹øÈ£¸¦ ¹ÙÅÁÀ¸·Î member_id °Ë»ö
+			// íšŒì›ì˜ ì´ë¦„ê³¼ ì „í™”ë²ˆí˜¸ë¥¼ ë°”íƒ•ìœ¼ë¡œ member_id ê²€ìƒ‰
 			PreparedStatement pStmt = conn.prepareStatement(
 					"select * from DB2022_members join DB2022_enroll using(member_id) where name=? and phone=?;");
 			pStmt.setString(1, member_name);
 			pStmt.setString(2, phone);
 			ResultSet info_set = pStmt.executeQuery();
-			// È¸¿ø Á¤º¸°¡ Àß¸øµÇ¾ú°Å³ª, È¸¿ø±ÇÀ» µî·ÏÇÑ È¸¿øDB¿¡ È¸¿øÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì
+			// íšŒì› ì •ë³´ê°€ ì˜ëª»ë˜ì—ˆê±°ë‚˜, íšŒì›ê¶Œì„ ë“±ë¡í•œ íšŒì›DBì— íšŒì›ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 			if (!info_set.next()) {
 				t1.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
-						+ "Á¸ÀçÇÏÁö ¾Ê´Â È¸¿øÀÔ´Ï´Ù.<br/>"
+						+ "Member does not exist.<br/>"
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
 			} else {
-				// º¸¾ÈÀ» À§ÇØ password È®ÀÎ
+				// ë³´ì•ˆì„ ìœ„í•´ password í™•ì¸
 				if (!passwd.equals(info_set.getString("password"))) {
 					t1.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
-							+ "ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.<br/>"
+							+ "Wrong Password!<br/>"
 							+ "----------------------------------------------------------------------------------</body></html>");
 				} else {
-					// È¸¿øÀÇ member_id¿Í ÁöÁ¡ ÀúÀå
+					// íšŒì›ì˜ member_idì™€ ì§€ì  ì €ì¥
 					member_id = info_set.getString("member_id");
 					String member_branch = info_set.getString("branch");
 
-					// ÇØ´ç È¸¿øÀÇ ÁöÁ¡¿¡ ÀÖ´Â trainer ¸ñ·Ï °Ë»ö
+					// í•´ë‹¹ íšŒì›ì˜ ì§€ì ì— ìˆëŠ” trainer ëª©ë¡ ê²€ìƒ‰
 					pStmt = conn.prepareStatement(
 							"select * from DB2022_trainers join DB2022_career using(trainer_id) where branch =?;\r\n");
 					pStmt.setString(1, member_branch);
@@ -160,20 +160,20 @@ public class TrainerFrame extends JFrame {
 
 					t1.setText("<html><body style='text-align:center;'>"
 							+ "----------------------------------------------------------------------------------<br/>"
-							+ "È¸¿ø´ÔÀÌ °è½Å ÁöÁ¡¿¡<br /> "
-							+ "¼Ò¼ÓµÈ Æ®·¹ÀÌ³Ê ¸í´ÜÀÔ´Ï´Ù."
+							+ "This is a list of trainers<br /> "
+							+ " belonging to your branch."
 							+ "</body></html>");
 					t2.setText("<html><body style='text-align:center;'>");
 					while (trainer_set.next()) {
 						id.add(trainer_set.getInt("trainer_id"));
-						t2.setText(t2.getText() + trainer_set.getString("trainer_id") + "¹ø: "
-								+ trainer_set.getString("name") + ", °æ·Â: " + trainer_set.getString("career_year") + "³â "
-								+ trainer_set.getString("career_month") + "°³¿ù<br />");
+						t2.setText(t2.getText() + "No." + trainer_set.getString("trainer_id") + " "
+								+ trainer_set.getString("name") + ", Career: " + trainer_set.getString("career_year") + " year "
+								+ trainer_set.getString("career_month") + " months<br />");
 
 					}
 					t2.setText(t2.getText() + "----------------------------------------------------------------------------------</body></html>");
-					// ¿øÇÏ´Â Æ®·¹ÀÌ³ÊÀÇ ¹øÈ£ ÀÔ·Â
-					t3.setText("<html><body style='text-align:center;'>¿øÇÏ´Â Æ®·¹ÀÌ³ÊÀÇ ¹øÈ£</body></html>");
+					// ì›í•˜ëŠ” íŠ¸ë ˆì´ë„ˆì˜ ë²ˆí˜¸ ì…ë ¥
+					t3.setText("<html><body style='text-align:center;'>Enter Trainer Number You Want</body></html>");
 					trainer_field.setVisible(true);
 				}
 			}
