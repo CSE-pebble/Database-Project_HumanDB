@@ -222,7 +222,7 @@ public class EmployeeFrame extends JFrame {
 				+ "* Trainer Menu *" + "</body></html>"));
 		content.add(new JLabel("<html><body style='text-align:center;'>"
 				+ "----------------------------------------------------------------------------------<br/>"
-				+ " Identity Verification *<br/>" + "</body></html>"));
+				+ "* Identity Verification *<br/>" + "</body></html>"));
 		content.add(new JLabel("    Name    "));
 		content.add(name_field);
 		content.add(new JLabel("   Branch  "));
