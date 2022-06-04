@@ -104,7 +104,7 @@ public class MyPageFrame extends JFrame {
 					// 입력된 사용자 정보를 바탕으로 회원 정보 불러오기
 					PreparedStatement pStmt = conn
 							.prepareStatement("select membership, height, weight, phone, end_date "
-									+ "from DB2022_members join DB2022_period using(member_id) "
+									+ "from DB2022_members use index(idx_memb_phone) join DB2022_period using(member_id) "
 									+ "where DB2022_members.name=? and phone=? and password=?;");
 					pStmt.setString(1, name);
 					pStmt.setString(2, phone);
