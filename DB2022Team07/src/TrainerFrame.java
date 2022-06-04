@@ -21,7 +21,7 @@ public class TrainerFrame extends JFrame {
 	private JTextField phone_field = new JTextField(25);
 	private JTextField passwd_field = new JTextField(25);
 	private JTextField trainer_field = new JTextField(4);
-	private JButton close = new JButton("Ã¢ ´Ý±â");
+	private JButton close = new JButton("close");
 	private JButton btn = new JButton("OK");
 	private JLabel t1 = new JLabel();
 	private JLabel t2 = new JLabel();

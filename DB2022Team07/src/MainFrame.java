@@ -15,11 +15,11 @@ public class MainFrame extends JFrame {
       setTitle("Ewha Gym");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-      JButton branchBtn = new JButton("지점");
-      JButton registerBtn = new JButton ("회원가입");
-      JButton memberBtn = new JButton("마이 페이지");
-      JButton trainerBtn = new JButton("트레이너 등록 / 변경");
-      JButton employeeBtn = new JButton("직원 페이지");
+      JButton branchBtn = new JButton("Branch Information");
+      JButton registerBtn = new JButton ("Sign Up");
+      JButton memberBtn = new JButton("My Page");
+      JButton trainerBtn = new JButton("PT Application / Change Trainer");
+      JButton employeeBtn = new JButton("Staff Page");
       branchBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -38,8 +38,7 @@ public class MainFrame extends JFrame {
       memberBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            Member.Expired_Member(content);
-            Member.BMI_Calculator(content);
+            new MyPageFrame();
          }
 
       });
@@ -63,25 +62,25 @@ public class MainFrame extends JFrame {
       content.setLayout(new FlowLayout());
       content.add(new JLabel("<html><body style='text-align:center;'>"
       		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "안녕하세요!<br/>"
-      		+ "Ewha Gym입니다.<br/>"
-      		+ "원하시는 서비스를 선택해주세요.<br/>"
+      		+ "Hello!<br/>"
+      		+ "This Ewha Gym.<br/>"
+      		+ "Please choose the service.<br/>"
       		+ "</body></html>"));
       content.add(new JLabel("<html><body style='text-align:center;'>"
         		+ "----------------------------------------------------------------------------------<br/>"
-        		+ "* 지점별 정보 조회 *<br/>"
+        		+ "* Branch Information Inquiry *<br/>"
         		+ "</body></html>"));
       content.add(branchBtn);
       content.add(new JLabel("<html><body style='text-align:center;'>"
       		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "* 회원 서비스 *<br/>"
+      		+ "* Member Service *<br/>"
       		+ "</body></html>"));
       content.add(registerBtn);
       content.add(memberBtn);
       content.add(trainerBtn);
       content.add(new JLabel("<html><body style='text-align:center;'>"
       		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "* 직원 서비스 *<br/>"
+      		+ "* Staff Service *<br/>"
       		+ "</body></html>"));
       content.add(employeeBtn);
       
