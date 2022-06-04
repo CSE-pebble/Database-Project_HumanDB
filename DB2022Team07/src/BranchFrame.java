@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// 지점 관련 GUI 
 public class BranchFrame extends JFrame {
    private JTextField year_field = new JTextField(25);
    private JTextField month_field = new JTextField(25);
@@ -26,6 +27,7 @@ public class BranchFrame extends JFrame {
 
       Container content = getContentPane();
       content.setLayout(new FlowLayout());
+      // 지점별 월별 매출 조회 GUI 추가
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
             + "* Monthly Sales  per Branch *<br/>" + "Please enter the year and month.<br/>"
@@ -36,18 +38,21 @@ public class BranchFrame extends JFrame {
       content.add(month_field);
       content.add(revenue_btn);
       content.add(profit);
+      // 지점별 회원 수 조회 GUI 추가
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
             + "* Number of Members per Branch *<br/>"
             + "</body></html>"));
       content.add(member_btn);
       content.add(member_num);
+      // 지점별 트레이너 수 조회 GUI 추가
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
             + "* Number of Trainers per Branch*<br/>"
             + "</body></html>"));
       content.add(trainer_btn);
       content.add(trainer_num);
+      // 지점별 회원수 1위 트레이너 조회 GUI 추가
       content.add(new JLabel("<html><body style='text-align:center;'>"
             + "----------------------------------------------------------------------------------<br/>"
             + "* TOP 1 Trainer per Branch *<br/>"
@@ -55,15 +60,15 @@ public class BranchFrame extends JFrame {
       content.add(top1_btn);
       content.add(top1_label);
 
+      // 버튼에 월별 매출 계산 이벤트 추가
       revenue_btn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            Monthly_Revenue();
+            Monthly_Revenue(); // 월별 매출 계산하기
          }
       });
+      // 버튼에 지점별 회원 수 보여주는 이벤트 추가
       member_btn.addActionListener(new ActionListener() {
-
          @Override
          public void actionPerformed(ActionEvent e) {
             try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
@@ -83,8 +88,9 @@ public class BranchFrame extends JFrame {
          }
          
       });
+      
+      // 버튼에 지점별 트레이너 수 보여주는 이벤트 추가
       trainer_btn.addActionListener(new ActionListener() {
-
          @Override
          public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
@@ -107,10 +113,10 @@ public class BranchFrame extends JFrame {
 
       });
       
+      // 버튼에 지점별 회원 수 1위 트레이너 보여주는 이벤트 추가
       top1_btn.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-             // TODO Auto-generated method stub
              try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
                    DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();){
                 ResultSet rset = stmt
@@ -138,7 +144,9 @@ public class BranchFrame extends JFrame {
       setVisible(true);
    }
 
+   // 지점별 월별 매출을 계산하는 함수
    void Monthly_Revenue() {
+      // 연도와 월 입력 값 가져오기
       String tempYear = year_field.getText().trim();
       String tempMonth = month_field.getText().trim();
       int year = -1, month = -1;
@@ -146,12 +154,14 @@ public class BranchFrame extends JFrame {
          year = Integer.parseInt(tempYear);
          month = Integer.parseInt(tempMonth);
       } catch (NumberFormatException numException) {
+         // 입력 형식이 맞지 않으면 에러 메시지 띄우기
          profit.setText("<html><body style='text-align:center;'>"
                + "----------------------------------------------------------------------------------<br/>"
                + "You have entered incorrectly.<br/>" + "Please re-enter the correct year and month.<br/>"
                + "----------------------------------------------------------------------------------<br/>"
                + "</body></html>");
       }
+      // 올바른 값을 입력했으면 월별 매출 계산하기
       if (year != -1 && month != -1) {
          try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
                DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
@@ -164,6 +174,7 @@ public class BranchFrame extends JFrame {
             pStmt.setString(1, tempYear);
             pStmt.setString(2, tempMonth);
             ResultSet rset = pStmt.executeQuery();
+            // 월별 매출 보여주기
             if (rset.next()) {
                String info;
                profit.setText("<html><body style='text-align:center;'>"
@@ -174,6 +185,7 @@ public class BranchFrame extends JFrame {
                } while (rset.next());
                profit.setText(profit.getText() + "</body></html>");
             } else {
+               // 해당 날짜에 매출 정보가 없으면 정보가 없다는 메시지 띄우기
                profit.setText("<html><body style='text-align:center;'>"
                      + "----------------------------------------------------------------------------------<br/>"
                      + "There are no members registered in the year and month..<br/>"
