@@ -16,10 +16,10 @@ public class MyPageFrame extends JFrame{
    private JLabel t1 = new JLabel();
    private JLabel t2 = new JLabel();
    private JLabel complete_label=new JLabel();
-   private JButton bmi_menu = new JButton("BMI Calculation");
-   private JButton period_menu = new JButton("Membership Expiration Date Inquiry");
+   private JButton bmi_menu = new JButton("BMI Calculation"); // BMI 계산 버튼
+	private JButton period_menu = new JButton("Membership Expiration Date Inquiry"); // 회원권 만료 날짜 조회 버튼
    private JButton edit_menu = new JButton("Edit Member Information");
-   private JButton btn = new JButton("OK");
+   private JButton btn = new JButton("OK");  // 사용자 정보 제출 버튼
    private JButton edit_btn = new JButton("OK");
    
    private JLabel edit_label1 = new JLabel("password");
@@ -42,6 +42,7 @@ public class MyPageFrame extends JFrame{
       period_menu.setVisible(false);
       edit_menu.setVisible(false);
       
+      // Container에 필드 추가
       Container contentPane = getContentPane();
       contentPane.setLayout(new FlowLayout());
       contentPane.add(new JLabel("<html><body style='text-align:center;'>"
@@ -99,12 +100,15 @@ public class MyPageFrame extends JFrame{
             try (Connection conn = DriverManager.getConnection(
                   "jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID, DB2022Team07_main.USERID,
                   DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
+               // 입력된 사용자 정보를 바탕으로 회원 정보 불러오기
                PreparedStatement pStmt = conn.prepareStatement(
                      "select height, weight, phone, end_date from DB2022_members join DB2022_period where DB2022_members.name=? and phone=? and password=?;");
                pStmt.setString(1, name);
                pStmt.setString(2, phone);
                pStmt.setString(3, passwd);
                ResultSet rset = pStmt.executeQuery();
+               
+               // 해당 회원이 존재하지 않으면 에러 메시지 띄우기
                if (!rset.next()) {
                   t1.setText("<html><body style='text-align:center;'>"
                         + "----------------------------------------------------------------------------------<br/>"
@@ -112,6 +116,7 @@ public class MyPageFrame extends JFrame{
                         + "----------------------------------------------------------------------------------"
                         + "</body></html>");
                } else {
+                  // 존재하는 회원이면 키, 몸무게, 만료 날짜 정보 보여주기
                   height= rset.getString("height");
                   weight = rset.getString("weight");
                   phone = rset.getString("phone");
@@ -133,17 +138,15 @@ public class MyPageFrame extends JFrame{
             }
          }
       });
+      
+      // BMI 계산 버튼 클릭 시, BMI 계산하는 이벤트 추가
       bmi_menu.addActionListener(new ActionListener() {
-         
-
          @Override
          public void actionPerformed(ActionEvent e) {
             edit_panel.setVisible(false);
             edit_btn.setVisible(false);
             complete_label.setVisible(false);
-
-
-            // TODO Auto-generated method stub
+            
             int height_num = Integer.parseInt(height);
             int weight_num = Integer.parseInt(weight);
             
@@ -156,6 +159,8 @@ public class MyPageFrame extends JFrame{
          }
          
       });
+      
+      // 회원권 만료 날짜 조회 버튼 클릭 시, 만료 날짜 보여주는 이벤트 추가
       period_menu.addActionListener(new ActionListener() {
 
          @Override
