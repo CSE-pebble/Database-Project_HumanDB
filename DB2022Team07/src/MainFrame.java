@@ -6,79 +6,88 @@ import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
 
 public class MainFrame extends JFrame {
-   static List profitList = new List();
-   static List infoList = new List();
-   static JPanel panel = new JPanel();
-   static Container content;
+    static List profitList = new List();
+    static List infoList = new List();
+    static JPanel panel = new JPanel();
+    static Container content;
 
-   static boolean month = false;
-   static boolean info = false;
+    static boolean month = false;
+    static boolean info = false;
 
-   public MainFrame() {
-      setTitle("Ewha Gym");
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public MainFrame() {
+        setTitle("Ewha Gym");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-      JButton branchBtn = new JButton("ÁöÁ¡");
-      JButton memberBtn = new JButton("¸¶ÀÌ ÆäÀÌÁö");
-      JButton trainerBtn = new JButton("Æ®·¹ÀÌ³Ê µî·Ï / º¯°æ");
-      JButton employeeBtn = new JButton("Á÷¿ø ÆäÀÌÁö");
-      
-      branchBtn.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-        	 new BranchFrame();
-         }
-      });
-      memberBtn.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            Member.Expired_Member(content);
-            Member.BMI_Calculator(content);
-         }
+        JButton branchBtn = new JButton("ì§€ì ");
+        JButton registerBtn = new JButton("íšŒì›ê°€ì…");
+        JButton memberBtn = new JButton("ë§ˆì´ í˜ì´ì§€");
+        JButton trainerBtn = new JButton("íŠ¸ë ˆì´ë„ˆ ë“±ë¡ / ë³€ê²½");
+        JButton employeeBtn = new JButton("ì§ì› í˜ì´ì§€");
 
-      });
-      trainerBtn.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-           new TrainerFrame();
-         }
-      });
-      employeeBtn.addActionListener(new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			new EmployeeFrame();
-		}
-    	  
+        branchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new BranchFrame();
+            }
+        });
+        registerBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RegisterFrame();
+            }
 
-      });
-      content = getContentPane();
-      content.setLayout(new FlowLayout());
-      content.add(new JLabel("<html><body style='text-align:center;'>"
-      		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "¾È³çÇÏ¼¼¿ä!<br/>"
-      		+ "Ewha GymÀÔ´Ï´Ù.<br/>"
-      		+ "¿øÇÏ½Ã´Â ¼­ºñ½º¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.<br/>"
-      		+ "</body></html>"));
-      content.add(new JLabel("<html><body style='text-align:center;'>"
-        		+ "----------------------------------------------------------------------------------<br/>"
-        		+ "* ÁöÁ¡º° Á¤º¸ Á¶È¸ *<br/>"
-        		+ "</body></html>"));
-      content.add(branchBtn);
-      content.add(new JLabel("<html><body style='text-align:center;'>"
-      		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "* È¸¿ø ¼­ºñ½º *<br/>"
-      		+ "</body></html>"));
-      content.add(memberBtn);
-      content.add(trainerBtn);
-      content.add(new JLabel("<html><body style='text-align:center;'>"
-      		+ "----------------------------------------------------------------------------------<br/>"
-      		+ "* Á÷¿ø ¼­ºñ½º *<br/>"
-      		+ "</body></html>"));
-      content.add(employeeBtn);
-      
-      setSize(350, 700);
-      setVisible(true);
-   }
+        });
+        memberBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Member.Expired_Member(content);
+                Member.BMI_Calculator(content);
+            }
+
+        });
+        trainerBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                new TrainerFrame();
+            }
+        });
+        employeeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                new EmployeeFrame();
+            }
+
+
+        });
+        content = getContentPane();
+        content.setLayout(new FlowLayout());
+        content.add(new JLabel("<html><body style='text-align:center;'>"
+                + "----------------------------------------------------------------------------------<br/>"
+                + "ì•ˆë…•í•˜ì„¸ìš”!<br/>"
+                + "Ewha Gymì…ë‹ˆë‹¤.<br/>"
+                + "ì›í•˜ì‹œëŠ” ì„œë¹„ìŠ¤ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.<br/>"
+                + "</body></html>"));
+        content.add(new JLabel("<html><body style='text-align:center;'>"
+                + "----------------------------------------------------------------------------------<br/>"
+                + "* ì§€ì ë³„ ì •ë³´ ì¡°íšŒ *<br/>"
+                + ""));
+        content.add(branchBtn);
+        content.add(new JLabel("<html><body style='text-align:center;'>"
+                + "----------------------------------------------------------------------------------<br/>"
+                + "* íšŒì› ì„œë¹„ìŠ¤ *<br/>"
+                + "</body></html>"));
+        content.add(registerBtn);
+        content.add(memberBtn);
+        content.add(trainerBtn);
+        content.add(new JLabel("<html><body style='text-align:center;'>"
+                + "----------------------------------------------------------------------------------<br/>"
+                + "* ì§ì› ì„œë¹„ìŠ¤ *<br/>"
+                + "</body></html>"));
+        content.add(employeeBtn);
+
+        setSize(350, 700);
+        setVisible(true);
+    }
 }

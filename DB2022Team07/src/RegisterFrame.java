@@ -4,92 +4,98 @@ import java.sql.*;
 import javax.swing.*;
 
 public class RegisterFrame extends JFrame{
-	static JTextField name_field = new JTextField(10);
-	static JTextField phone_field = new JTextField(15);
-	static JTextField password_field = new JTextField(5);
-	static JTextField gender_field = new JTextField(1);
-	static JTextField height_field = new JTextField(5);
-	static JTextField weight_field = new JTextField(5);
-	static JTextField branch_field = new JTextField(10);
-	static JLabel label = new JLabel("ÇÊ¼ö Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
-	static JLabel register = new JLabel("È¸¿ø°¡ÀÔÀÌ ¾È·áµÇ¾ú½À´Ï´Ù");
+	static JTextField name_field = new JTextField(25);
+	static JTextField phone_field = new JTextField(22);
+	static JTextField password_field = new JTextField(22);
+	static JTextField gender_field = new JTextField(7);
+	static JTextField height_field = new JTextField(7);
+	static JTextField weight_field = new JTextField(7);
+	static JTextField branch_field = new JTextField(22);
+	static JLabel label = new JLabel("í•„ìˆ˜ ì •ë³´ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
+	static JLabel register = new JLabel("íšŒì›ê°€ì…ì´ ì•ˆë£Œë˜ì—ˆìŠµë‹ˆë‹¤");
 
 	public RegisterFrame() {
-		setTitle("È¸¿ø°¡ÀÔ");
+		setTitle("íšŒì›ê°€ì…");
 		Container content = getContentPane();
 		content.setLayout(new FlowLayout());
-		
-        name_field.setText("");
-        phone_field.setText("");
-        password_field.setText("");
-        gender_field.setText("");
-        height_field.setText("");
-        weight_field.setText("");
-        branch_field.setText("");
-        
-        content.add(label);
-        label.setVisible(false);
 
-		content.add(new JLabel("ÀÌ¸§"));
+		name_field.setText("");
+		phone_field.setText("");
+		password_field.setText("");
+		gender_field.setText("");
+		height_field.setText("");
+		weight_field.setText("");
+		branch_field.setText("");
+
+		content.add(label);
+		label.setVisible(false);
+
+		content.add(new JLabel("<html><body style='text-align:center;'>"
+				+ "----------------------------------------------------------------------------------<br/>"
+				+ "* íšŒì›ê°€ì…*<br />"
+				+ "----------------------------------------------------------------------------------<br/>"
+				+ "</body></html>"));
+
+		content.add(new JLabel("ì´ë¦„"));
 		content.add(name_field);
 
-		content.add(new JLabel("ÈŞ´ëÆù ¹øÈ£"));
+		content.add(new JLabel("ì „í™”ë²ˆí˜¸"));
 		content.add(phone_field);
-		
-		content.add(new JLabel("4ÀÚ¸® ºñ¹Ğ¹øÈ£"));
+
+		content.add(new JLabel("4ìë¦¬ ë¹„ë°€ë²ˆí˜¸"));
 		content.add(password_field);
 
-		content.add(new JLabel("¼ºº°"));
+		content.add(new JLabel("ì„±ë³„"));
 		content.add(gender_field);
 
-		content.add(new JLabel("Å°"));
+		content.add(new JLabel("í‚¤"));
 		content.add(height_field);
 
-		content.add(new JLabel("¸ö¹«°Ô"));
+		content.add(new JLabel("ëª¸ë¬´ê²Œ"));
 		content.add(weight_field);
 
-		content.add(new JLabel("ÁöÁ¡"));
+		content.add(new JLabel("ì§€ì "));
 		content.add(branch_field);
-		
-		JButton btn = new JButton("È¸¿ø°¡ÀÔ");
+
+		JButton btn = new JButton("íšŒì›ê°€ì…");
 		content.add(btn);
-		
-        content.add(register);
-        register.setVisible(false);
-		
-	    setSize(500, 500);
+
+		content.add(register);
+		register.setVisible(false);
+
+		setSize(350, 500);
 		setVisible(true);
-		
+
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-	            String name = name_field.getText().trim();
-	            String phone = phone_field.getText().trim();
-	            String passwd = password_field.getText().trim();
-	            String gender = gender_field.getText().trim();
-	            String height = height_field.getText().trim();
-	            String weight = weight_field.getText().trim();
-	            String branch = branch_field.getText().trim();
-	            
-	            if(!name.isEmpty() && !phone.isEmpty() && !passwd.isEmpty() && !gender.isEmpty() && !height.isEmpty() && !weight.isEmpty() && !branch.isEmpty()) {
-	            	label.setVisible(false);
-	            	Register(name, phone, passwd, gender, height, weight, branch);
-	            }
-	            else
-	            	label.setVisible(true);
-			}			
+				String name = name_field.getText().trim();
+				String phone = phone_field.getText().trim();
+				String passwd = password_field.getText().trim();
+				String gender = gender_field.getText().trim();
+				String height = height_field.getText().trim();
+				String weight = weight_field.getText().trim();
+				String branch = branch_field.getText().trim();
+
+				if(!name.isEmpty() && !phone.isEmpty() && !passwd.isEmpty() && !gender.isEmpty() && !height.isEmpty() && !weight.isEmpty() && !branch.isEmpty()) {
+					label.setVisible(false);
+					Register(name, phone, passwd, gender, height, weight, branch);
+				}
+				else
+					label.setVisible(true);
+			}
 		});
-		
+
 	}
-		
+
 	static void Register(String name, String phone, String passwd, String gender, String height, String weight, String branch) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
-			// È¸¿øÀÇ ÀÌ¸§°ú ÀüÈ­¹øÈ£¸¦ ¹ÙÅÁÀ¸·Î member_id °Ë»ö
+			// íšŒì›ì˜ ì´ë¦„ê³¼ ì „í™”ë²ˆí˜¸ë¥¼ ë°”íƒ•ìœ¼ë¡œ member_id ê²€ìƒ‰
 			PreparedStatement pStmt = conn.prepareStatement("insert into DB2022_members values(?,?,?,?,?,?,?,?,?)");
-			ResultSet rSet=stmt.executeQuery("select count(*) as num from DB2022_members;");		
-			
+			ResultSet rSet=stmt.executeQuery("select count(*) as num from DB2022_members;");
+
 			if(rSet.next()) {
 				int n=rSet.getInt("num")+1;
 				System.out.println(n);
@@ -100,13 +106,13 @@ public class RegisterFrame extends JFrame{
 				pStmt.setInt(5, Integer.parseInt(weight));
 				pStmt.setString(6, phone);
 				pStmt.setString(7, passwd);
-				pStmt.setString(8, branch);	
-				pStmt.setString(9, null);	
+				pStmt.setString(8, branch);
+				pStmt.setString(9, null);
 				pStmt.executeUpdate();
 				register.setVisible(true);
-				System.out.println("È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+				System.out.println("íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
-			
+
 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle);
