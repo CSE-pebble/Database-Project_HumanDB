@@ -337,7 +337,7 @@ public class EmployeeFrame extends JFrame {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DB2022Team07_main.DBID,
 				DB2022Team07_main.USERID, DB2022Team07_main.PASSWD); Statement stmt = conn.createStatement();) {
 			ResultSet rset = stmt
-					.executeQuery("select * from DB2022_period where timestampdiff(day,end_date,curdate())>0;");
+					.executeQuery("select name,member_id from DB2022_period where timestampdiff(day,end_date,curdate())>0;");
 			if (!rset.next()) {
 				t5.setText("<html><body style='text-align:center;'>"
 						+ "----------------------------------------------------------------------------------<br/>"
@@ -349,11 +349,13 @@ public class EmployeeFrame extends JFrame {
 						+ "----------------------------------------------------------------------------------<br/>");
 				do {
 					t5.setText(t5.getText() + rset.getString("name") + "님<br/>");
+					PreparedStatement pStmt = conn.prepareStatement("delete from DB2022_enroll where member_id=?");
+					pStmt.setString(1, rset.getString("member_id"));
+					pStmt.executeUpdate();
 				}while(rset.next());
 				t5.setText(t5.getText() + "회원권 정보가 삭제되었습니다.<br/>"
 						+ "----------------------------------------------------------------------------------"
 						+ "</body></html>");
-				stmt.executeUpdate("delete from DB2022_period where timestampdiff(day,end_date,curdate())>0;");
 			}
 			close.setVisible(true);
 		} catch (SQLException sqle) {
