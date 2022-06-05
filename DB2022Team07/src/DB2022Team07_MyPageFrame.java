@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-public class MyPageFrame extends JFrame {
+public class DB2022Team07_MyPageFrame extends JFrame {
 	private JTextField name_field = new JTextField(25);
 	private JTextField phone_field = new JTextField(25);
 	private JTextField passwd_field = new JTextField(25);
@@ -32,7 +32,7 @@ public class MyPageFrame extends JFrame {
 	String height = "", weight = "", password = "";
 	String phone, passwd;
 
-	public MyPageFrame() {
+	public DB2022Team07_MyPageFrame() {
 		setTitle("My Page");
 		height = "";
 		weight = "";

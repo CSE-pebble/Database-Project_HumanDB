@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
-public class TrainerFrame extends JFrame {
+public class DB2022Team07_TrainerFrame extends JFrame {
 	private JTextField name_field = new JTextField(25);
 	private JTextField phone_field = new JTextField(25);
 	private JTextField passwd_field = new JTextField(25);
@@ -30,7 +30,7 @@ public class TrainerFrame extends JFrame {
 	private Vector<Integer> id = new Vector<Integer>();
 	private String member_id="";
 
-	public TrainerFrame() {
+	public DB2022Team07_TrainerFrame() {
 		setTitle("Trainer");
 		trainer_field.setVisible(false);
 		close.setVisible(false);

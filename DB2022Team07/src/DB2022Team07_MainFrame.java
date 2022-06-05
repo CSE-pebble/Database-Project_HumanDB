@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class MainFrame extends JFrame {
+public class DB2022Team07_MainFrame extends JFrame {
    static List profitList = new List();
    static List infoList = new List();
    static Container content;
@@ -10,11 +10,11 @@ public class MainFrame extends JFrame {
    static boolean month = false;
    static boolean info = false;
 
-   public MainFrame() {
+   public DB2022Team07_MainFrame() {
       setTitle("Ewha Gym");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   
-   // 메뉴 버튼 생성
+   // 硫붾돱 踰꾪듉 �깮�꽦
       JButton branchBtn = new JButton("Branch Information");
       JButton registerBtn = new JButton ("Sign Up");
       JButton memberBtn = new JButton("My Page");
@@ -22,11 +22,11 @@ public class MainFrame extends JFrame {
       JButton employeeBtn = new JButton("Staff Page");
       JButton enrollBtn = new JButton("Buy Membership");
       
-	// 각 메뉴 버튼을 클릭하면 해당 프레임을 생성한다.
+	// 媛� 硫붾돱 踰꾪듉�쓣 �겢由��븯硫� �빐�떦 �봽�젅�엫�쓣 �깮�꽦�븳�떎.
       branchBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-        	 new BranchFrame();
+        	 new DB2022Team07_BranchFrame();
          }
       });
       registerBtn.addActionListener(new ActionListener() {
@@ -34,14 +34,14 @@ public class MainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			new RegisterFrame();
+			new DB2022Team07_RegisterFrame();
 		}
     	  
       });
       memberBtn.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            new MyPageFrame();
+            new DB2022Team07_MyPageFrame();
          }
 
       });
@@ -49,24 +49,24 @@ public class MainFrame extends JFrame {
          @Override
          public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
-           new TrainerFrame();
+           new DB2022Team07_TrainerFrame();
          }
       });
       enrollBtn.addActionListener(new ActionListener() {
     	  @Override
     	  public void actionPerformed(ActionEvent e) {
-    		  new EnrollFrame();
+    		  new DB2022Team07_EnrollFrame();
     	  }
       });
       employeeBtn.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			new EmployeeFrame();
+			new DB2022Team07_EmployeeFrame();
 		}
       });
 
-   // Container에 패널 추가하기
+   // Container�뿉 �뙣�꼸 異붽��븯湲�
       content = getContentPane();
       content.setLayout(new FlowLayout());
       content.add(new JLabel("<html><body style='text-align:center;'>"

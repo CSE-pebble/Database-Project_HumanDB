@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-public class EmployeeFrame extends JFrame {
+public class DB2022Team07_EmployeeFrame extends JFrame {
 	private JTextField name_field = new JTextField(25);
 	private JTextField branch_field = new JTextField(25);
 	private JTextField passwd_field = new JTextField(25);
@@ -32,7 +32,7 @@ public class EmployeeFrame extends JFrame {
 	private Vector<String> branch_list = new Vector<String>();
 	private Vector<String> delete_list = new Vector<String>();
 
-	public EmployeeFrame() {
+	public DB2022Team07_EmployeeFrame() {
 		setTitle("Employee");
 		quit_menu.setVisible(false);
 		move_menu.setVisible(false);

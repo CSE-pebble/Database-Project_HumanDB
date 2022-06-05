@@ -12,7 +12,7 @@ public class DB2022Team07_main extends JFrame {
 	static final String PASSWD = "DB2022Team07";
 
 	public static void main(String args[]) {
-		new MainFrame();
+		new DB2022Team07_MainFrame();
 	}
 }
 

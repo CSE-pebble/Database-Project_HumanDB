@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // 지점 관련 GUI 
-public class BranchFrame extends JFrame {
+public class DB2022Team07_BranchFrame extends JFrame {
    private JTextField year_field = new JTextField(25);
    private JTextField month_field = new JTextField(25);
    private JLabel profit = new JLabel();
@@ -17,7 +17,7 @@ public class BranchFrame extends JFrame {
    private JButton top1_btn = new JButton("search");
    private JLabel top1_label = new JLabel();
 
-   public BranchFrame() {
+   public DB2022Team07_BranchFrame() {
       setTitle("Branch");
       profit.setText("");
       member_num.setText("");

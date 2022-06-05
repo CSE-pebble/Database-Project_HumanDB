@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-public class RegisterFrame extends JFrame {
+public class DB2022Team07_RegisterFrame extends JFrame {
 	JTextField name_field = new JTextField(20);
 	JTextField phone_field = new JTextField(20);
 	JTextField password_field = new JTextField(20);
@@ -20,7 +20,7 @@ public class RegisterFrame extends JFrame {
 
 	// 회원가입 GUI를 생성한다.
 	// 입력값이 유효한지 판단하고 회원가입을 진행한다.
-	public RegisterFrame() {
+	public DB2022Team07_RegisterFrame() {
 		setTitle("Sign Up");
 		Container content = getContentPane();
 		content.setLayout(new FlowLayout());

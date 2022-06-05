@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class EnrollFrame extends JFrame {
+public class DB2022Team07_EnrollFrame extends JFrame {
 
 	private Vector<Integer> id = new Vector<Integer>(); // 구매할 수 있는 회원권 ID
 	private String member_id = "";
@@ -54,7 +54,7 @@ public class EnrollFrame extends JFrame {
 	private JButton enrollBtn = new JButton("Enroll");
 	private JLabel membership_enroll_result = new JLabel();
 
-	public EnrollFrame() {
+	public DB2022Team07_EnrollFrame() {
 		setTitle("Enroll Membership");
 
 		showEnrollField(false);
